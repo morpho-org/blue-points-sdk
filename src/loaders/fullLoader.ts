@@ -1,4 +1,4 @@
-import { InMemoryStateManager, State, StateManager } from "../stateManager";
+import { State } from "../stateManager";
 import { fetchSubgraph } from "../subgraph";
 import { Market, MetaMorpho, MetaMorphoPosition, Position } from "../types";
 import { getAddress } from "viem";
@@ -141,84 +141,99 @@ export interface SubgraphConfig {
   querySize?: number;
   maxRetries?: number;
 }
+
+const subgraphCache = new Map<string, State>();
+
 export const loadFullFromSubgraph = async (
   subgraph: SubgraphConfig,
   block: number
 ): Promise<State> => {
-  let hasMore = true;
-  const lastIds = {
-    lastMarketsId: "",
-    lastPositionsId: "",
-    lastMetaMorphosId: "",
-    lastMetaMorphoPositionsId: "",
-  };
+  const cachedFetch = async () => {
+    let hasMore = true;
+    const lastIds = {
+      lastMarketsId: "",
+      lastPositionsId: "",
+      lastMetaMorphosId: "",
+      lastMetaMorphoPositionsId: "",
+    };
 
-  const data: {
-    markets: Market[];
-    positions: Position[];
-    metaMorphos: MetaMorpho[];
-    metaMorphoPositions: MetaMorphoPosition[];
-  } = {
-    markets: [],
-    positions: [],
-    metaMorphos: [],
-    metaMorphoPositions: [],
-  };
-  const querySize = subgraph.querySize ?? 1000;
+    const data: {
+      markets: Market[];
+      positions: Position[];
+      metaMorphos: MetaMorpho[];
+      metaMorphoPositions: MetaMorphoPosition[];
+    } = {
+      markets: [],
+      positions: [],
+      metaMorphos: [],
+      metaMorphoPositions: [],
+    };
+    const querySize = subgraph.querySize ?? 1000;
 
-  while (hasMore) {
-    const fetch = () =>
-      fetchSubgraph(subgraph.url, query, {
-        block,
-        first: querySize,
-        ...lastIds,
-      }).then(parseSubgraphData);
+    while (hasMore) {
+      const fetch = () =>
+        fetchSubgraph(subgraph.url, query, {
+          block,
+          first: querySize,
+          ...lastIds,
+        }).then(parseSubgraphData);
 
-    let retries = 0;
-    let isSuccessFull = false;
-    while (retries < (subgraph?.maxRetries ?? 3) && !isSuccessFull) {
-      const fetchingResult = await fetch().catch((err) => {
-        console.error(`Error fetching subgraph ${subgraph.url} retrying...`, err);
-        retries++;
-      });
-      if (fetchingResult) {
-        isSuccessFull = true;
-        const { markets, metaMorphoPositions, metaMorphos, positions } = fetchingResult;
+      let retries = 0;
+      let isSuccessFull = false;
+      while (retries < (subgraph?.maxRetries ?? 3) && !isSuccessFull) {
+        const fetchingResult = await fetch().catch((err) => {
+          console.error(`Error fetching subgraph ${subgraph.url} retrying...`, err);
+          retries++;
+        });
+        if (fetchingResult) {
+          isSuccessFull = true;
+          const { markets, metaMorphoPositions, metaMorphos, positions } = fetchingResult;
 
-        data.markets.push(...markets);
-        data.positions.push(...positions);
-        data.metaMorphos.push(...metaMorphos);
-        data.metaMorphoPositions.push(...metaMorphoPositions);
-        hasMore = Object.values([markets, metaMorphoPositions, metaMorphos, positions]).some(
-          (d: any) => d.length === querySize
-        );
+          data.markets.push(...markets);
+          data.positions.push(...positions);
+          data.metaMorphos.push(...metaMorphos);
+          data.metaMorphoPositions.push(...metaMorphoPositions);
+          hasMore = Object.values([markets, metaMorphoPositions, metaMorphos, positions]).some(
+            (d: any) => d.length === querySize
+          );
 
-        lastIds.lastMarketsId = markets[markets.length - 1]?.id ?? lastIds.lastMarketsId;
+          lastIds.lastMarketsId = markets[markets.length - 1]?.id ?? lastIds.lastMarketsId;
 
-        lastIds.lastPositionsId = positions[positions.length - 1]?.id ?? lastIds.lastPositionsId;
-        lastIds.lastMetaMorphosId =
-          metaMorphos[metaMorphos.length - 1]?.id ?? lastIds.lastMetaMorphosId;
-        lastIds.lastMetaMorphoPositionsId =
-          metaMorphoPositions[metaMorphoPositions.length - 1]?.id ??
-          lastIds.lastMetaMorphoPositionsId;
+          lastIds.lastPositionsId = positions[positions.length - 1]?.id ?? lastIds.lastPositionsId;
+          lastIds.lastMetaMorphosId =
+            metaMorphos[metaMorphos.length - 1]?.id ?? lastIds.lastMetaMorphosId;
+          lastIds.lastMetaMorphoPositionsId =
+            metaMorphoPositions[metaMorphoPositions.length - 1]?.id ??
+            lastIds.lastMetaMorphoPositionsId;
+        }
       }
     }
-  }
 
-  const markets = Object.fromEntries(data.markets.map((m) => [m.id, m]));
+    const markets = Object.fromEntries(data.markets.map((m) => [m.id, m]));
 
-  const positions = Object.fromEntries(data.positions.map((p) => [p.id, p]));
+    const positions = Object.fromEntries(data.positions.map((p) => [p.id, p]));
 
-  const metaMorphos = Object.fromEntries(data.metaMorphos.map((m) => [m.id, m]));
+    const metaMorphos = Object.fromEntries(data.metaMorphos.map((m) => [m.id, m]));
 
-  const metaMorphoPositions = Object.fromEntries(data.metaMorphoPositions.map((mp) => [mp.id, mp]));
+    const metaMorphoPositions = Object.fromEntries(
+      data.metaMorphoPositions.map((mp) => [mp.id, mp])
+    );
 
-  return {
-    markets,
-    positions,
-    metaMorphos,
-    metaMorphoPositions,
+    return {
+      markets,
+      positions,
+      metaMorphos,
+      metaMorphoPositions,
+    };
   };
+  const config = getConfig();
+  const cacheKey = `${subgraph.url}-${block}`;
+  if (config.cacheEnabled && subgraphCache.has(cacheKey)) {
+    return subgraphCache.get(cacheKey)!;
+  }
+  const state = await cachedFetch();
+  if (config.cacheEnabled) subgraphCache.set(cacheKey, state);
+  return state;
 };
 
 export type SubgraphConfigs = string | SubgraphConfig | (SubgraphConfig | string)[];
@@ -235,7 +250,7 @@ export const loadFullFromSubgraphs = async (
   config?: {
     quorum: number;
   }
-): Promise<StateManager> => {
+): Promise<State> => {
   if (!Array.isArray(subgraphs)) {
     subgraphs = [subgraphs];
   }
@@ -254,7 +269,7 @@ export const loadFullFromSubgraphs = async (
 
   if (sdkConfig.cacheEnabled && stateCache.has(block)) {
     const stateFromCache = stateCache.get(block)!;
-    if (stateFromCache.quorum >= quorum) return new InMemoryStateManager(stateFromCache.state);
+    if (stateFromCache.quorum >= quorum) return stateFromCache.state;
   }
 
   const states = await Promise.all(
@@ -263,7 +278,7 @@ export const loadFullFromSubgraphs = async (
   if (quorum === 1) {
     if (sdkConfig.cacheEnabled) stateCache.set(block, { state: states[0]!, quorum: 1 });
 
-    return new InMemoryStateManager(states[0]!);
+    return states[0]!;
   }
 
   const diffStatesIndexes: Record<number, number> = {};
@@ -290,7 +305,7 @@ export const loadFullFromSubgraphs = async (
   const state = states[+grouped[0]!]!;
   if (sdkConfig.cacheEnabled) stateCache.set(block, { state, quorum: grouped[1] });
 
-  return new InMemoryStateManager(state);
+  return state;
 };
 
 export interface SnapshotConfig {
@@ -302,9 +317,9 @@ export const getSnapshotFromSubgraph = async (
   subgraphs: SubgraphConfigs,
   { lastBlockNumber, timestamp }: SnapshotConfig
 ) =>
-  loadFullFromSubgraphs(subgraphs, lastBlockNumber)
-    .then((r) => r.dumpState())
-    .then((r) => distributeUpTo(r, BigInt(timestamp)));
+  loadFullFromSubgraphs(subgraphs, lastBlockNumber).then((r) =>
+    distributeUpTo(r, BigInt(timestamp))
+  );
 
 export const getTimeframeFromSubgraph = async ({
   subgraphs,

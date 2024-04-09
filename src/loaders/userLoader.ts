@@ -1,4 +1,3 @@
-import { InMemoryStateManager } from "../stateManager/StateManager";
 import { fetchSubgraph } from "../subgraph";
 import { Market, MetaMorpho, MetaMorphoPosition, Position } from "../types";
 
@@ -219,10 +218,10 @@ export const loadFromSubgraphForUser = async (subgraphUrl: string, user: string,
   const positions = Object.fromEntries(data.positions.map((p) => [p.id, p]));
   const metaMorphos = Object.fromEntries(data.metaMorphos.map((m) => [m.id, m]));
   const metaMorphoPositions = Object.fromEntries(data.metaMorphoPositions.map((p) => [p.id, p]));
-  return new InMemoryStateManager({
+  return {
     markets,
     positions,
     metaMorphos,
     metaMorphoPositions,
-  });
+  };
 };

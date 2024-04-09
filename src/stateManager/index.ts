@@ -1,2 +1,1 @@
-export { InMemoryStateManager } from "./StateManager";
-export type { StateManager, State } from "./StateManager";
+export type { State, PointsState } from "./StateManager";

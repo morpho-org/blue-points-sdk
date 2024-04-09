@@ -1,7 +1,7 @@
-import { PointsState } from "./stateManager/StateManager";
+import { PointsState } from "../stateManager/StateManager";
 import { Address, Hex } from "viem";
-import { getTimeframeFromSubgraph, SnapshotConfig, SubgraphConfigs } from "./loaders";
-import { redistributeAll } from "./distributors";
+import { getTimeframeFromSubgraph, SnapshotConfig, SubgraphConfigs } from "../loaders";
+import { redistributeAll } from "../distributors";
 import { computeMerkleTree } from "./merkleTree";
 
 export interface MarketProgramConfig {

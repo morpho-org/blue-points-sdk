@@ -2,7 +2,7 @@ export * as BluePoints from "./types";
 export * from "./distributors";
 export * from "./stateManager";
 export * from "./loaders";
-
+export * from "./programs";
 export const config = {
   cacheEnabled: true,
 };
