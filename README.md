@@ -6,17 +6,15 @@ The Morpho Blue Points SDK facilitates the distribution and management of shards
 ## Definitions
 - **Shard**: A unit of measure representing a user's participation in a market. Users accrue 1e-6 shards per market share per second. The precision of shards equals the precision of underlying market shares plus six decimal places. For example, the precision for supply shards in a market with USDC as the loan asset is 18 (6+6+6).
 
-- **Points**: Another unit of measure for user market participation, based on a constant emission rate. One point per market is emitted every second, distributed among all users. Points use an index computation that, while less precise than shards, offers clearer understanding for end users.
-
-Shards are primarily used for computations due to their precision, while points are generally used for display & understanding.
+Shards are used for proportion computations due to their precision. 
 
 ## Features
 
-### Distribute points & shards on the user markets 
-The primary feature is the distribution of points and shards to users based on their market positions over time. This process utilizes a subgraph for indexing points.
+### Distribute shards on the user markets 
+The primary feature is the distribution of shards to users based on their market positions over time. This process utilizes a subgraph for indexing points.
 
 
-To do so, you have to use a subgraph that is indexing the points. 
+To do so, you have to use a subgraph that is indexing the shards. 
 You can check an example [here](https://github.com/morpho-org/morpho-blue-rewards-points) 
 
 ```typescript

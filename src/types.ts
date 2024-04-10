@@ -40,22 +40,6 @@ export interface MarketPoints extends Entity {
    * __Note__: This should be equal to the sum of all collateral in the market positions.
    */
   totalCollateralShards: bigint;
-
-  /** The total supply points in the market.
-   *
-   * __Note__: This number is computed from indexes, that can lead to rounding errors.
-   */
-  totalSupplyPoints: bigint;
-  /** The total borrow points in the market.
-   *
-   * __Note__: This number is computed from indexes, that can lead to rounding errors.
-   */
-  totalBorrowPoints: bigint;
-  /** The total collateral points in the market.
-   *
-   * __Note__: This number is computed from indexes, that can lead to rounding errors.
-   */
-  totalCollateralPoints: bigint;
 }
 
 /**
@@ -66,10 +50,6 @@ export interface Market extends MarketPoints {
   totalSupplyShares: bigint;
   totalBorrowShares: bigint;
   totalCollateral: bigint;
-
-  supplyPointsIndex: bigint;
-  borrowPointsIndex: bigint;
-  collateralPointsIndex: bigint;
 
   lastUpdate: bigint;
 }
@@ -90,13 +70,6 @@ export interface PositionPoints extends Entity {
   borrowShards: bigint;
   /** The total collateral in the position. */
   collateralShards: bigint;
-
-  /** The total supply points in the position. */
-  supplyPoints: bigint;
-  /** The total borrow points in the position. */
-  borrowPoints: bigint;
-  /** The total collateral points in the position. */
-  collateralPoints: bigint;
 }
 
 /**
@@ -113,13 +86,6 @@ export interface Position extends PositionPoints {
 
   /** The last update timestamp of the position. */
   lastUpdate: bigint;
-
-  /** The last supply points index of the position. */
-  lastSupplyPointsIndex: bigint;
-  /** The last borrow points index of the position. */
-  lastBorrowPointsIndex: bigint;
-  /** The last collateral points index of the position. */
-  lastCollateralPointsIndex: bigint;
 }
 
 /**
@@ -141,7 +107,6 @@ export interface MetaMorphoPoints extends Entity {
    *
    * __Note__: This number is computed from indexes, that can lead to rounding errors.
    */
-  totalPoints: bigint;
 }
 
 /**
@@ -152,9 +117,6 @@ export interface MetaMorphoPoints extends Entity {
 export interface MetaMorpho extends MetaMorphoPoints {
   /** The total shares of the vault, at the time used to retrieve the state */
   totalShares: bigint;
-
-  /** The last update timestamp of the vault. */
-  pointsIndex: bigint;
 
   /** The last update timestamp of the vault. */
   lastUpdate: bigint;
@@ -171,8 +133,6 @@ export interface MetaMorphoPositionPoints extends Entity {
 
   /** The total supply shards in the position. */
   supplyShards: bigint;
-  /** The total supply points in the position. */
-  supplyPoints: bigint;
 }
 
 /**
@@ -185,9 +145,6 @@ export interface MetaMorphoPosition extends MetaMorphoPositionPoints {
 
   /** The last update timestamp of the position. */
   lastUpdate: bigint;
-
-  /** The last supply points index of the position. */
-  lastSupplyPointsIndex: bigint;
 }
 
 export interface Tx extends Entity {

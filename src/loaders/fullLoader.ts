@@ -23,12 +23,6 @@ const query = `query All($block: Int!
     totalSupplyShards
     totalBorrowShards
     totalCollateralShards
-    totalSupplyPoints
-    supplyPointsIndex
-    totalBorrowPoints
-    borrowPointsIndex
-    totalCollateralPoints
-    collateralPointsIndex
     lastUpdate
   }
   positions(first: $first block: {number: $block} where: {id_gt: $lastPositionsId} orderBy: id) {
@@ -41,12 +35,6 @@ const query = `query All($block: Int!
     supplyShards
     borrowShards
     collateralShards
-    supplyPoints
-    lastSupplyPointsIndex
-    borrowPoints
-    lastBorrowPointsIndex
-    collateralPoints
-    lastCollateralPointsIndex
     lastUpdate
   }
 
@@ -54,8 +42,6 @@ const query = `query All($block: Int!
     id
     totalShares
     totalShards
-    totalPoints
-    pointsIndex
     lastUpdate
   }
   
@@ -65,8 +51,6 @@ const query = `query All($block: Int!
     user {id}
     shares
     supplyShards
-    supplyPoints
-    lastSupplyPointsIndex
     lastUpdate
   }
 }`;
@@ -87,12 +71,6 @@ export const parseSubgraphData = (
       totalSupplyShards: BigInt(m.totalSupplyShards),
       totalBorrowShards: BigInt(m.totalBorrowShards),
       totalCollateralShards: BigInt(m.totalCollateralShards),
-      totalSupplyPoints: BigInt(m.totalSupplyPoints),
-      supplyPointsIndex: BigInt(m.supplyPointsIndex),
-      totalBorrowPoints: BigInt(m.totalBorrowPoints),
-      borrowPointsIndex: BigInt(m.borrowPointsIndex),
-      totalCollateralPoints: BigInt(m.totalCollateralPoints),
-      collateralPointsIndex: BigInt(m.collateralPointsIndex),
       lastUpdate: BigInt(m.lastUpdate),
     })) ?? [],
   positions:
@@ -106,12 +84,6 @@ export const parseSubgraphData = (
       supplyShards: BigInt(p.supplyShards),
       borrowShards: BigInt(p.borrowShards),
       collateralShards: BigInt(p.collateralShards),
-      supplyPoints: BigInt(p.supplyPoints),
-      lastSupplyPointsIndex: BigInt(p.lastSupplyPointsIndex),
-      borrowPoints: BigInt(p.borrowPoints),
-      lastBorrowPointsIndex: BigInt(p.lastBorrowPointsIndex),
-      collateralPoints: BigInt(p.collateralPoints),
-      lastCollateralPointsIndex: BigInt(p.lastCollateralPointsIndex),
       lastUpdate: BigInt(p.lastUpdate),
     })) ?? [],
   metaMorphos:
@@ -119,8 +91,6 @@ export const parseSubgraphData = (
       id: getAddress(m.id),
       totalShares: BigInt(m.totalShares),
       totalShards: BigInt(m.totalShards),
-      totalPoints: BigInt(m.totalPoints),
-      pointsIndex: BigInt(m.pointsIndex),
       lastUpdate: BigInt(m.lastUpdate),
     })) ?? [],
   metaMorphoPositions:
@@ -130,8 +100,6 @@ export const parseSubgraphData = (
       user: getAddress(mp.user.id),
       shares: BigInt(mp.shares),
       supplyShards: BigInt(mp.supplyShards),
-      supplyPoints: BigInt(mp.supplyPoints),
-      lastSupplyPointsIndex: BigInt(mp.lastSupplyPointsIndex),
       lastUpdate: BigInt(mp.lastUpdate),
     })) ?? [],
 });

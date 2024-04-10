@@ -1,6 +1,6 @@
 import { State } from "../stateManager";
 import { mapValues } from "./utils";
-import { PointsState } from "../stateManager/StateManager";
+import { PointsState } from "../stateManager";
 
 export const stateDiff = (state: PointsState, newState: PointsState): PointsState => {
   const markets = mapValues(newState.markets, (market, id) => {
@@ -13,9 +13,6 @@ export const stateDiff = (state: PointsState, newState: PointsState): PointsStat
       totalSupplyShards: market.totalSupplyShards - initialState.totalSupplyShards,
       totalBorrowShards: market.totalBorrowShards - initialState.totalBorrowShards,
       totalCollateralShards: market.totalCollateralShards - initialState.totalCollateralShards,
-      totalSupplyPoints: market.totalSupplyPoints - initialState.totalSupplyPoints,
-      totalBorrowPoints: market.totalBorrowPoints - initialState.totalBorrowPoints,
-      totalCollateralPoints: market.totalCollateralPoints - initialState.totalCollateralPoints,
     };
   });
 
@@ -29,9 +26,6 @@ export const stateDiff = (state: PointsState, newState: PointsState): PointsStat
       supplyShards: position.supplyShards - initialState.supplyShards,
       borrowShards: position.borrowShards - initialState.borrowShards,
       collateralShards: position.collateralShards - initialState.collateralShards,
-      supplyPoints: position.supplyPoints - initialState.supplyPoints,
-      borrowPoints: position.borrowPoints - initialState.borrowPoints,
-      collateralPoints: position.collateralPoints - initialState.collateralPoints,
     };
   });
 
@@ -43,7 +37,6 @@ export const stateDiff = (state: PointsState, newState: PointsState): PointsStat
     return {
       ...metaMorpho,
       totalShards: metaMorpho.totalShards - initialState.totalShards,
-      totalPoints: metaMorpho.totalPoints - initialState.totalPoints,
     };
   });
 
@@ -55,7 +48,6 @@ export const stateDiff = (state: PointsState, newState: PointsState): PointsStat
     return {
       ...position,
       supplyShards: position.supplyShards - initialState.supplyShards,
-      supplyPoints: position.supplyPoints - initialState.supplyPoints,
     };
   });
 
@@ -83,13 +75,7 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
       return (
         market.totalSupplyShards === newMarket.totalSupplyShards &&
         market.totalBorrowShards === newMarket.totalBorrowShards &&
-        market.totalCollateralShards === newMarket.totalCollateralShards &&
-        market.totalSupplyPoints === newMarket.totalSupplyPoints &&
-        market.supplyPointsIndex === newMarket.supplyPointsIndex &&
-        market.totalBorrowPoints === newMarket.totalBorrowPoints &&
-        market.borrowPointsIndex === newMarket.borrowPointsIndex &&
-        market.totalCollateralPoints === newMarket.totalCollateralPoints &&
-        market.collateralPointsIndex === newMarket.collateralPointsIndex
+        market.totalCollateralShards === newMarket.totalCollateralShards
       );
     }) &&
     Object.keys(state.positions).every((id) => {
@@ -101,13 +87,7 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
       return (
         position.supplyShards === newPosition.supplyShards &&
         position.borrowShards === newPosition.borrowShards &&
-        position.collateralShards === newPosition.collateralShards &&
-        position.supplyPoints === newPosition.supplyPoints &&
-        position.lastSupplyPointsIndex === newPosition.lastSupplyPointsIndex &&
-        position.borrowPoints === newPosition.borrowPoints &&
-        position.lastBorrowPointsIndex === newPosition.lastBorrowPointsIndex &&
-        position.collateralPoints === newPosition.collateralPoints &&
-        position.lastCollateralPointsIndex === newPosition.lastCollateralPointsIndex
+        position.collateralShards === newPosition.collateralShards
       );
     }) &&
     Object.keys(state.metaMorphos).every((id) => {
@@ -116,11 +96,7 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
       if (!newMetaMorpho) {
         return false;
       }
-      return (
-        metaMorpho.totalShards === newMetaMorpho.totalShards &&
-        metaMorpho.totalPoints === newMetaMorpho.totalPoints &&
-        metaMorpho.pointsIndex === newMetaMorpho.pointsIndex
-      );
+      return metaMorpho.totalShards === newMetaMorpho.totalShards;
     }) &&
     Object.keys(state.metaMorphoPositions).every((id) => {
       const position = state.metaMorphoPositions[id]!;
@@ -128,11 +104,7 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
       if (!newPosition) {
         return false;
       }
-      return (
-        position.supplyShards === newPosition.supplyShards &&
-        position.supplyPoints === newPosition.supplyPoints &&
-        position.lastSupplyPointsIndex === newPosition.lastSupplyPointsIndex
-      );
+      return position.supplyShards === newPosition.supplyShards;
     })
   );
 };

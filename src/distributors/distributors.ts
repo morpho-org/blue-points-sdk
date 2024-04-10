@@ -1,12 +1,10 @@
-import { State } from "../stateManager";
 import { computeMarketPoints, computePositionPoints } from "./morphoDistributor";
 import {
   computeMetaMorphoPositionPoints,
   computeMetaMorphoVaultPoints,
 } from "./metaMorphoDistributor";
 import { mapValues } from "./utils";
-import { PointsState } from "../stateManager/StateManager";
-import { getConfig } from "../index";
+import { PointsState, getConfig, State } from "..";
 
 const distributedStateCache = new Map<number, PointsState>();
 
@@ -14,9 +12,6 @@ const cleanPointsState = (state: State): PointsState => {
   const markets = mapValues(
     state.markets,
     ({
-      totalSupplyPoints,
-      totalCollateralPoints,
-      totalBorrowPoints,
       totalSupplyShards,
       totalCollateralShards,
       totalBorrowShards,
@@ -24,9 +19,6 @@ const cleanPointsState = (state: State): PointsState => {
       loanToken,
       collateralToken,
     }) => ({
-      totalSupplyPoints,
-      totalCollateralPoints,
-      totalBorrowPoints,
       totalSupplyShards,
       totalCollateralShards,
       totalBorrowShards,
@@ -38,21 +30,8 @@ const cleanPointsState = (state: State): PointsState => {
 
   const positions = mapValues(
     state.positions,
-    ({
+    ({ id, supplyShards, borrowShards, collateralShards, market, user }) => ({
       id,
-      supplyPoints,
-      borrowPoints,
-      collateralPoints,
-      supplyShards,
-      borrowShards,
-      collateralShards,
-      market,
-      user,
-    }) => ({
-      id,
-      supplyPoints,
-      borrowPoints,
-      collateralPoints,
       supplyShards,
       borrowShards,
       collateralShards,
@@ -61,17 +40,15 @@ const cleanPointsState = (state: State): PointsState => {
     })
   );
 
-  const metaMorphos = mapValues(state.metaMorphos, ({ totalPoints, totalShards, id }) => ({
-    totalPoints,
+  const metaMorphos = mapValues(state.metaMorphos, ({ totalShards, id }) => ({
     totalShards,
     id,
   }));
 
   const metaMorphoPositions = mapValues(
     state.metaMorphoPositions,
-    ({ id, supplyPoints, supplyShards, metaMorpho, user }) => ({
+    ({ id, supplyShards, metaMorpho, user }) => ({
       id,
-      supplyPoints,
       supplyShards,
       metaMorpho,
       user,
@@ -95,7 +72,7 @@ export const distributeUpTo = (state: State, timestamp: bigint): PointsState => 
   const markets = mapValues(state.markets, (market) => computeMarketPoints(market, timestamp));
 
   const positions = mapValues(state.positions, (position) =>
-    computePositionPoints(markets[position.market]!, position, timestamp)
+    computePositionPoints(position, timestamp)
   );
 
   const metaMorphos = mapValues(state.metaMorphos, (metaMorpho) =>
@@ -103,7 +80,7 @@ export const distributeUpTo = (state: State, timestamp: bigint): PointsState => 
   );
 
   const metaMorphoPositions = mapValues(state.metaMorphoPositions, (position) =>
-    computeMetaMorphoPositionPoints(metaMorphos[position.metaMorpho]!, position, timestamp)
+    computeMetaMorphoPositionPoints(position, timestamp)
   );
   const snapshot = cleanPointsState({
     markets,
