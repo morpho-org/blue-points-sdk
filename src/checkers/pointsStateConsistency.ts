@@ -32,19 +32,19 @@ export const reduceMarketAndVaultsFromPositions = (_state: PointsState) => {
 export const checkShardsConsistency = (_state: PointsState) => {
   const state = reduceMarketAndVaultsFromPositions(_state);
 
-  const hasMarketInconsistency = Object.values(state.markets).some(
+  const hasMarketInconsistencies = Object.values(state.markets).some(
     ({ totalSupplyShards, totalBorrowShards, totalCollateralShards }) =>
       totalSupplyShards !== 0n || totalBorrowShards !== 0n || totalCollateralShards !== 0n
   );
 
-  const hasMetaMorphoInconsistency = Object.values(state.metaMorphos).some(
+  const hasMetaMorphoInconsistencies = Object.values(state.metaMorphos).some(
     ({ totalShards }) => totalShards !== 0n
   );
 
   return {
-    hasInconsistency: hasMarketInconsistency || hasMetaMorphoInconsistency,
-    hasMarketInconsistency,
-    hasMetaMorphoInconsistency,
+    hasInconsistencies: hasMarketInconsistencies || hasMetaMorphoInconsistencies,
+    hasMarketInconsistencies,
+    hasMetaMorphoInconsistencies,
     state,
   };
 };
