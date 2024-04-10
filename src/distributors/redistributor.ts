@@ -1,6 +1,6 @@
 import { freemmer } from "./utils";
 import { Address, concat, Hex } from "viem";
-import { PointsState } from "..";
+import { blacklistingAddress, PointsState } from "..";
 import { initPositionPoints } from "./morphoDistributor";
 import { MORPHO_ADDRESS } from "./constants";
 import { initMetaMorphoPointsPosition } from "./metaMorphoDistributor";
@@ -166,7 +166,7 @@ export const redistributeVaultAsCollateral = (state: PointsState): PointsState =
 /**
  * We first need to redistribute to the users that have used the vault as collateral
  * And then, we spread the vault market points to the vault users.
- * @param state
+ * Finally, we blacklist the remaining points of blue (due to roundings during the redistribution)
  */
 export const redistributeAll = (state: PointsState) =>
-  redistributeMetaMorpho(redistributeVaultAsCollateral(state));
+  blacklistingAddress(redistributeMetaMorpho(redistributeVaultAsCollateral(state)), MORPHO_ADDRESS);
