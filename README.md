@@ -15,7 +15,7 @@ The primary feature is the distribution of shards to users based on their market
 
 
 To do so, you have to use a subgraph that is indexing the shards. 
-You can check an example [here](https://github.com/morpho-org/morpho-blue-rewards-points) 
+You can check an example [here](https://github.com/morpho-org/blue-shards-subgraph) 
 
 ```typescript
 import { getSnapshotFromSubgraph } from "@morpho-org/blue-shards-sdk";
