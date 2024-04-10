@@ -45,8 +45,8 @@ export const computeMerkleTree = (userRewards: UserRewards[]) => {
   return { merkleTree, lookupTree };
 };
 
-export const mergeTrees = (leaves: UserRewards[][]) => {
-  const perUserPerToken = leaves.flat(1).reduce(
+export const mergeTrees = (leavesRegistry: UserRewards[][]) => {
+  const perUserPerToken = leavesRegistry.flat(1).reduce(
     (acc, { user, rewardToken, rewards }) => {
       const balances = (acc[user] ??= {});
       balances[rewardToken] ??= 0n;
@@ -56,7 +56,7 @@ export const mergeTrees = (leaves: UserRewards[][]) => {
     {} as { [user: string]: { [token: string]: bigint } }
   );
 
-  const leafs = Object.entries(perUserPerToken).flatMap(([user, tokens]) =>
+  const leaves = Object.entries(perUserPerToken).flatMap(([user, tokens]) =>
     Object.entries(tokens).map(
       ([rewardToken, rewards]): UserRewards => ({
         user: user as Address,
@@ -66,7 +66,35 @@ export const mergeTrees = (leaves: UserRewards[][]) => {
     )
   );
   return {
-    leafs,
-    ...computeMerkleTree(leafs),
+    leaves,
+    ...computeMerkleTree(leaves),
+  };
+};
+
+/**
+ * Check if all the new leaves are consistent with the previous leaves.
+ * It returns the inconsistencies.
+ *
+ * Inconsistency is defined as:
+ * - A leaf is missing in the new leaves
+ * - A leaf has less rewards than the previous leaf
+ *
+ */
+export const areNewLeavesConsistents = (
+  previousLeaves: UserRewards[],
+  newLeaves: UserRewards[]
+): {
+  hasInconsistencies: boolean;
+  inconsistencies: UserRewards[];
+} => {
+  const inconsistencies = previousLeaves.filter(({ user, rewardToken, rewards }) => {
+    const newLeaf = newLeaves.find(
+      (leaf) => leaf.user === user && leaf.rewardToken === rewardToken
+    );
+    return !newLeaf || newLeaf.rewards < rewards;
+  });
+  return {
+    hasInconsistencies: inconsistencies.length > 0,
+    inconsistencies,
   };
 };
