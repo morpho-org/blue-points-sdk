@@ -2,6 +2,7 @@
   "name": "@morpho-org/blue-points-sdk",
   "version": "1.0.0",
   "main": "lib/index.js",
+  "files": ["lib", "README.md", "LICENSE", "package.json"],
   "repository": "git@github.com:morpho-org/blue-points-sdk.git",
   "author": "Julien-devatom <julien@morpho.xyz>",
   "license": "MIT",

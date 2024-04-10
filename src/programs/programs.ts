@@ -88,7 +88,7 @@ export interface MetaMorphoProgramConfig {
   tokensToDistributeSupplySide: bigint;
 }
 
-const distributeMetaMorphoRewards = (
+export const distributeMetaMorphoRewards = (
   state: PointsState,
   { metaMorphoAddress, tokensToDistributeSupplySide, rewardToken }: MetaMorphoProgramConfig
 ) => {
