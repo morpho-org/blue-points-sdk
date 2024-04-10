@@ -153,7 +153,7 @@ const distribute = async (subgraphUrl: string) => {
 
   const { metaMorphoPositions } = redistributeVaultAsCollateral(pointsState);
 
-  //dump the full state.
+  //dump the metamorpho positions state.
   console.log(metaMorphoPositions);
 };
 ```
@@ -181,7 +181,7 @@ const distribute = async (subgraphUrl: string) => {
 
   const { positions } = redistributeAll(pointsState);
 
-  //dump the full state.
+  //dump the positions state.
   console.log(positions);
 };
 ```
@@ -242,7 +242,6 @@ const distribute = async (subgraphUrl: string) => {
 
   const { hasInconsistency } = checkShardsConsistency(pointsState);
   
-  //dump the full state.
   console.log(hasInconsistency);
 };
 
@@ -271,7 +270,6 @@ const distribute = async (subgraphUrl: string) => {
 
   const { hasInconsistency } = checkPointsConsistency(pointsState);
   
-  //dump the full state.
   console.log(hasInconsistency);
 };
 
@@ -343,10 +341,6 @@ import {
   TimeBoundedMarketProgram,
 } from "@morpho-org/blue-points-sdk";
 
-// @ts-ignore
-BigInt.prototype.toJSON = function () {
-  return this.toString();
-};
 const distribute = async (subgraphUrl: string) => {
   const program: TimeBoundedMarketProgram = {
     from: {
@@ -367,5 +361,5 @@ const distribute = async (subgraphUrl: string) => {
     subgraphUrl,
     program
   );
-
+};
 ```
