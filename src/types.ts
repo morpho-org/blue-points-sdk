@@ -1,6 +1,6 @@
 import { Address as ViemAddress, Hex as ViemHex } from "viem";
 
-// Re export the types from viem in order to not make im as a peer dependency
+// Re export the types from viem in order to not make viem as a peer dependency
 export type Address = ViemAddress;
 export type Hex = ViemHex;
 

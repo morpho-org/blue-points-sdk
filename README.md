@@ -21,13 +21,13 @@ You can check an example [here](https://github.com/morpho-org/blue-shards-subgra
 import { getSnapshotFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getSnapshotFromSubgraph(subgraphUrl, {
+  const shardsState = await getSnapshotFromSubgraph(subgraphUrl, {
     lastBlockNumber: 19191167,
     timestamp: 1707488903,
   });
 
   //dump the full state.
-  console.log(pointsState);
+  console.log(shardsState);
 };
 ```
 
@@ -38,7 +38,7 @@ Generally, you need to compute the shards between two timestamps. To do so, you 
 import { getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -51,7 +51,7 @@ const distribute = async (subgraphUrl: string) => {
   });
 
   //dump the full state.
-  console.log(pointsState);
+  console.log(shardsState);
 }
 ```
 
@@ -63,7 +63,7 @@ The computation is redistributing to all the users.
 import { getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -76,16 +76,16 @@ const distribute = async (subgraphUrl: string) => {
   });
 
   const userAddress = "0x12345";
-  const userPointsPerMarkets = Object.values(pointsState.positions).filter(
+  const userShardsPerMarkets = Object.values(shardsState.positions).filter(
     ({ user }) => user === userAddress
   );
 
-  const userPointsPerMetaMorpho = Object.values(pointsState.metaMorphoPositions).filter(
+  const userShardsPerMetaMorpho = Object.values(shardsState.metaMorphoPositions).filter(
     ({ user }) => user === userAddress
   );
 
   //dump the full state.
-  console.log(userPointsPerMarkets, userPointsPerMetaMorpho);
+  console.log(userShardsPerMarkets, userShardsPerMetaMorpho);
 };
 
 ```
@@ -104,7 +104,7 @@ After a redistribution, metamorpho users have now a virtual position on blue wit
 import { redistributeMetaMorpho, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -116,10 +116,10 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const redistributedPoints = redistributeMetaMorpho(pointsState);
+  const redistributedShards = redistributeMetaMorpho(shardsState);
 
   //dump the full state.
-  console.log(redistributedPoints);
+  console.log(redistributedShards);
 };
 ```
 
@@ -137,7 +137,7 @@ This is creating virtual vault positions for the users that are using the shares
 import { redistributeVaultAsCollateral, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -149,7 +149,7 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const { metaMorphoPositions } = redistributeVaultAsCollateral(pointsState);
+  const { metaMorphoPositions } = redistributeVaultAsCollateral(shardsState);
 
   //dump the metamorpho positions state.
   console.log(metaMorphoPositions);
@@ -165,7 +165,7 @@ There is an helper function to do that:
 import { redistributeAll, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -177,7 +177,7 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const { positions } = redistributeAll(pointsState);
+  const { positions } = redistributeAll(shardsState);
 
   //dump the positions state.
   console.log(positions);
@@ -196,7 +196,7 @@ The blacklist module remove all the shards earned by a user (market & metamorpho
 import { blacklistingAddress, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -209,7 +209,7 @@ const distribute = async (subgraphUrl: string) => {
   });
 
   const blackListedAddress = "0x"; // Can also be an array of addresses.
-  const stateWithoutBlackListed = blacklistingAddress(pointsState, blackListedAddress);
+  const stateWithoutBlackListed = blacklistingAddress(shardsState, blackListedAddress);
   
   //dump the full state.
   console.log(stateWithoutBlackListed);
@@ -226,7 +226,7 @@ For example you can check if the market shards are consistent with the sum of th
 import { checkShardsConsistency, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -238,7 +238,7 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const { hasInconsistencies } = checkShardsConsistency(pointsState);
+  const { hasInconsistencies } = checkShardsConsistency(shardsState);
   
   console.log(hasInconsistencies);
 };
@@ -262,7 +262,7 @@ const distribute = async (subgraphUrl: string) => {
   const satsumaSubgraphUrl = "";
   const selfHostedSubgraphUrl = "";
   const hostedServiceUrl = "";
-  const pointsState = await getTimeframeFromSubgraph({
+  const shardsState = await getTimeframeFromSubgraph({
     subgraphs: [
       {
         url: satsumaSubgraphUrl,
@@ -292,7 +292,7 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  console.log(pointsState);
+  console.log(shardsState);
 };
 ```
 
