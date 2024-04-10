@@ -3,6 +3,9 @@ export * from "./distributors";
 export * from "./stateManager";
 export * from "./loaders";
 export * from "./programs";
+export * from "./modules";
+export * from "./checkers";
+
 export const config = {
   cacheEnabled: true,
 };
