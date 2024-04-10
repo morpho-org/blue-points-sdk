@@ -1,4 +1,6 @@
+export { Address, Hex } from "./types";
 export * as BluePoints from "./types";
+
 export * from "./distributors";
 export * from "./stateManager";
 export * from "./loaders";

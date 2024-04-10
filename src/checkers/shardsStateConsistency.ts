@@ -1,6 +1,6 @@
-import { PointsState } from "../stateManager";
+import { ShardsState } from "../stateManager";
 
-export const reduceMarketAndVaultsFromPositions = (_state: PointsState) => {
+export const reduceMarketAndVaultsFromPositions = (_state: ShardsState) => {
   let state = Object.assign({}, _state);
 
   state = Object.values(state.positions).reduce(
@@ -29,7 +29,7 @@ export const reduceMarketAndVaultsFromPositions = (_state: PointsState) => {
   return state;
 };
 
-export const checkShardsConsistency = (_state: PointsState) => {
+export const checkShardsConsistency = (_state: ShardsState) => {
   const state = reduceMarketAndVaultsFromPositions(_state);
 
   const hasMarketInconsistencies = Object.values(state.markets).some(

@@ -1,5 +1,5 @@
 import { Address, concat } from "viem";
-import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionPoints, MetaMorphoTx } from "../types";
+import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionShards, MetaMorphoTx } from "../types";
 import { State } from "../stateManager";
 import { freemmer } from "./utils";
 
@@ -21,7 +21,7 @@ export const initMetaMorphoPosition = (
 export const initMetaMorphoPointsPosition = (
   metaMorphoAddress: Address,
   user: Address
-): MetaMorphoPositionPoints => ({
+): MetaMorphoPositionShards => ({
   id: concat([metaMorphoAddress, user]).toString(),
   metaMorpho: metaMorphoAddress,
   user,

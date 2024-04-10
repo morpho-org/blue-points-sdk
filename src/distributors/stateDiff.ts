@@ -1,8 +1,8 @@
 import { State } from "../stateManager";
 import { mapValues } from "./utils";
-import { PointsState } from "../stateManager";
+import { ShardsState } from "../stateManager";
 
-export const stateDiff = (state: PointsState, newState: PointsState): PointsState => {
+export const stateDiff = (state: ShardsState, newState: ShardsState): ShardsState => {
   const markets = mapValues(newState.markets, (market, id) => {
     const initialState = state.markets[id];
     if (!initialState) {

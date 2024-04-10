@@ -4,11 +4,11 @@ import {
   computeMetaMorphoVaultPoints,
 } from "./metaMorphoDistributor";
 import { mapValues } from "./utils";
-import { PointsState, getConfig, State } from "..";
+import { ShardsState, getConfig, State } from "..";
 
-const distributedStateCache = new Map<number, PointsState>();
+const distributedStateCache = new Map<number, ShardsState>();
 
-const cleanPointsState = (state: State): PointsState => {
+const cleanPointsState = (state: State): ShardsState => {
   const markets = mapValues(
     state.markets,
     ({
@@ -63,7 +63,7 @@ const cleanPointsState = (state: State): PointsState => {
   };
 };
 
-export const distributeUpTo = (state: State, timestamp: bigint): PointsState => {
+export const distributeUpTo = (state: State, timestamp: bigint): ShardsState => {
   const config = getConfig();
   if (config.cacheEnabled && distributedStateCache.has(Number(timestamp))) {
     return distributedStateCache.get(Number(timestamp))!;

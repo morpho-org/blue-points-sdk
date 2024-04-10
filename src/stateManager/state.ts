@@ -2,13 +2,13 @@ import {
   Entity,
   EntityId,
   Market,
-  MarketPoints,
+  MarketShards,
   MetaMorpho,
-  MetaMorphoPoints,
+  MetaMorphoShards,
   MetaMorphoPosition,
-  MetaMorphoPositionPoints,
+  MetaMorphoPositionShards,
   Position,
-  PositionPoints,
+  PositionShards,
 } from "../types";
 
 type EntityMap<T extends Entity> = Record<EntityId, T>;
@@ -19,9 +19,9 @@ export interface State {
   metaMorphos: EntityMap<MetaMorpho>;
   metaMorphoPositions: EntityMap<MetaMorphoPosition>;
 }
-export interface PointsState {
-  markets: EntityMap<MarketPoints>;
-  positions: EntityMap<PositionPoints>;
-  metaMorphos: EntityMap<MetaMorphoPoints>;
-  metaMorphoPositions: EntityMap<MetaMorphoPositionPoints>;
+export interface ShardsState {
+  markets: EntityMap<MarketShards>;
+  positions: EntityMap<PositionShards>;
+  metaMorphos: EntityMap<MetaMorphoShards>;
+  metaMorphoPositions: EntityMap<MetaMorphoPositionShards>;
 }

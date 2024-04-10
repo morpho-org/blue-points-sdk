@@ -1,1 +1,1 @@
-export * from "./pointsStateConsistency";
+export * from "./shardsStateConsistency";

@@ -1,6 +1,6 @@
 import { freemmer } from "./utils";
 import { Address, concat, Hex } from "viem";
-import { blacklistingAddress, PointsState } from "..";
+import { blacklistingAddress, ShardsState } from "..";
 import { initPositionPoints } from "./morphoDistributor";
 import { MORPHO_ADDRESS } from "./constants";
 import { initMetaMorphoPointsPosition } from "./metaMorphoDistributor";
@@ -11,7 +11,7 @@ import { initMetaMorphoPointsPosition } from "./metaMorphoDistributor";
  * Map over the metamorpho positions and redistribute the points to the users of the vault
  */
 export const redistributeOneMarketToOneMetaMorpho = (
-  state: PointsState,
+  state: ShardsState,
   mmAddress: Address,
   marketId: Hex
 ) =>
@@ -51,7 +51,7 @@ export const redistributeOneMarketToOneMetaMorpho = (
  *
  * Map over the vault positions into the different markets and redistribute the points to the users of the vault
  */
-export const redistributeOneMetaMorpho = (state: PointsState, mmAddress: Address) => {
+export const redistributeOneMetaMorpho = (state: ShardsState, mmAddress: Address) => {
   const vaultMarkets = Object.values(state.positions)
     .filter(({ user }) => user === mmAddress)
     .map(({ market }) => market);
@@ -67,18 +67,18 @@ export const redistributeOneMetaMorpho = (state: PointsState, mmAddress: Address
  *
  * Map over each vault, check the metamorpho positions and redistribute the points to the users of the vault.
  */
-export const redistributeMetaMorpho = (state: PointsState): PointsState =>
+export const redistributeMetaMorpho = (state: ShardsState): ShardsState =>
   Object.keys(state.metaMorphos).reduce(
     (resultedState, metaMorpho) => redistributeOneMetaMorpho(resultedState, metaMorpho as Address),
     state
   );
 
 const redistributeVaultShardsToCollateralUsers = (
-  state: PointsState,
+  state: ShardsState,
   mmAddress: Address,
   marketId: Hex,
   shardsToRedistribute: bigint
-): PointsState => {
+): ShardsState => {
   const market = state.markets[marketId]!;
 
   if (market.totalCollateralShards === 0n) return state;
@@ -113,9 +113,9 @@ const redistributeVaultShardsToCollateralUsers = (
 };
 
 const redistributeCollateralPointsToMetaMorphoUsers = (
-  state: PointsState,
+  state: ShardsState,
   mmAddress: Address
-): PointsState => {
+): ShardsState => {
   const vaultBluePosition =
     state.metaMorphoPositions[concat([mmAddress, MORPHO_ADDRESS]).toString()];
   if (!vaultBluePosition) return state;
@@ -149,7 +149,7 @@ const redistributeCollateralPointsToMetaMorphoUsers = (
  *
  * Map over all vaults that are used as collateral.
  * */
-export const redistributeVaultAsCollateral = (state: PointsState): PointsState => {
+export const redistributeVaultAsCollateral = (state: ShardsState): ShardsState => {
   const vaultAsCollateral = Object.values(state.metaMorphos).filter(({ id }) =>
     Object.values(state.markets).some(
       ({ collateralToken, totalCollateralShards }) =>
@@ -168,5 +168,5 @@ export const redistributeVaultAsCollateral = (state: PointsState): PointsState =
  * And then, we spread the vault market points to the vault users.
  * Finally, we blacklist the remaining points of blue (due to roundings during the redistribution)
  */
-export const redistributeAll = (state: PointsState) =>
+export const redistributeAll = (state: ShardsState) =>
   blacklistingAddress(redistributeMetaMorpho(redistributeVaultAsCollateral(state)), MORPHO_ADDRESS);

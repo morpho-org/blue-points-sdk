@@ -1,4 +1,4 @@
-import { Market, MorphoTx, Position, PositionPoints, PositionType } from "../types";
+import { Market, MorphoTx, Position, PositionShards, PositionType } from "../types";
 import { Address, concat, Hex } from "viem";
 import { freemmer } from "./utils";
 import { State } from "../stateManager";
@@ -10,7 +10,7 @@ export const initPosition = (market: Hex, user: Address): Position => ({
   collateral: 0n,
   lastUpdate: 0n,
 });
-export const initPositionPoints = (market: Hex, user: Address): PositionPoints => ({
+export const initPositionPoints = (market: Hex, user: Address): PositionShards => ({
   id: concat([market, user]).toString(),
   market,
   user,

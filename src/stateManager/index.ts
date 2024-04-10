@@ -1,1 +1,1 @@
-export type { State, PointsState } from "./StateManager";
+export type { State, ShardsState } from "./state";

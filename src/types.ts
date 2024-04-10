@@ -1,4 +1,8 @@
-import { Address, Hex } from "viem";
+import { Address as ViemAddress, Hex as ViemHex } from "viem";
+
+// Re export the types from viem in order to not make im as a peer dependency
+export type Address = ViemAddress;
+export type Hex = ViemHex;
 
 export enum PositionType {
   SUPPLY,
@@ -16,7 +20,7 @@ export interface Entity {
  * MarketPoints is the points representation of the Market entity.
  * It contains aggregated values that are derivated from the positions.
  */
-export interface MarketPoints extends Entity {
+export interface MarketShards extends Entity {
   /* The ID of the market. This is the same as the onchain id, lowercased. */
   id: Hex;
 
@@ -46,7 +50,7 @@ export interface MarketPoints extends Entity {
  * Market is the entity that represents a market in the system.
  * It extends the points and add indexes + timestamps, used to compute a market snapshot.
  */
-export interface Market extends MarketPoints {
+export interface Market extends MarketShards {
   totalSupplyShares: bigint;
   totalBorrowShares: bigint;
   totalCollateral: bigint;
@@ -58,7 +62,7 @@ export interface Market extends MarketPoints {
  * PositionPoints is the points representation of the Position entity.
  * It contains all the points & shards of a user position in a given market
  */
-export interface PositionPoints extends Entity {
+export interface PositionShards extends Entity {
   /** The Checksummed address of the user. */
   user: Address;
   /** The ID of the market. This is the same as the onchain id, lowercased. */
@@ -76,7 +80,7 @@ export interface PositionPoints extends Entity {
  * Position is the entity that represents a user position in the system.
  * It extends the points and add indexes + timestamps, used to compute a position snapshot.
  */
-export interface Position extends PositionPoints {
+export interface Position extends PositionShards {
   /** The total supply shares of the position, at the time used to retrieve the state */
   supplyShares: bigint;
   /** The total borrow shares of the position, at the time used to retrieve the state */
@@ -93,7 +97,7 @@ export interface Position extends PositionPoints {
  *
  * It contains aggregated values that are derivated from the vault positions.
  */
-export interface MetaMorphoPoints extends Entity {
+export interface MetaMorphoShards extends Entity {
   /** The Checksummed address of the vault. */
   id: Address;
 
@@ -114,7 +118,7 @@ export interface MetaMorphoPoints extends Entity {
  *
  * It extends the points and add indexes + timestamps, used to compute a MetaMorpho snapshot.
  */
-export interface MetaMorpho extends MetaMorphoPoints {
+export interface MetaMorpho extends MetaMorphoShards {
   /** The total shares of the vault, at the time used to retrieve the state */
   totalShares: bigint;
 
@@ -125,7 +129,7 @@ export interface MetaMorpho extends MetaMorphoPoints {
 /**
  * MetaMorphoPositionPoints is the points representation of the MetaMorphoPosition entity.
  */
-export interface MetaMorphoPositionPoints extends Entity {
+export interface MetaMorphoPositionShards extends Entity {
   /** The Checksummed address of the user. */
   user: Address;
   /** The Checksummed address of the vault. */
@@ -139,7 +143,7 @@ export interface MetaMorphoPositionPoints extends Entity {
  * MetaMorphoPosition is the entity that represents a user position in the system.
  * It extends the points and add indexes + timestamps, used to compute a position snapshot.
  */
-export interface MetaMorphoPosition extends MetaMorphoPositionPoints {
+export interface MetaMorphoPosition extends MetaMorphoPositionShards {
   /** The total shares of the position, at the time used to retrieve the state */
   shares: bigint;
 

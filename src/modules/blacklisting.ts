@@ -1,8 +1,8 @@
-import { PointsState } from "../stateManager";
+import { ShardsState } from "../stateManager";
 import { Address } from "viem";
 
 export const blacklistingAddress = (
-  state: PointsState,
+  state: ShardsState,
   blacklistedAddresses: Address[] | Address
 ) => {
   if (!Array.isArray(blacklistedAddresses)) {

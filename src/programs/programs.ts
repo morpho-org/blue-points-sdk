@@ -1,4 +1,4 @@
-import { PointsState } from "../stateManager/StateManager";
+import { ShardsState } from "../stateManager/state";
 import { Address, Hex } from "viem";
 import { getTimeframeFromSubgraph, SnapshotConfig, SubgraphConfigs } from "../loaders";
 import { redistributeAll } from "../distributors";
@@ -27,7 +27,7 @@ export interface UserRewards {
   rewards: bigint;
 }
 export const distributeMarketRewards = (
-  state: PointsState,
+  state: ShardsState,
   {
     market,
     rewardToken,
@@ -89,7 +89,7 @@ export interface MetaMorphoProgramConfig {
 }
 
 export const distributeMetaMorphoRewards = (
-  state: PointsState,
+  state: ShardsState,
   { metaMorphoAddress, tokensToDistributeSupplySide, rewardToken }: MetaMorphoProgramConfig
 ) => {
   const metaMorpho = state.metaMorphos[metaMorphoAddress]!;
