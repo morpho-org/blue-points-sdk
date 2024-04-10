@@ -10,7 +10,7 @@ import { initMetaMorphoPointsPosition } from "./metaMorphoDistributor";
  *
  * Map over the metamorpho positions and redistribute the points to the users of the vault
  */
-const redistributeMarketPointsToVaultUsers = (
+export const redistributeOneMarketToOneMetaMorpho = (
   state: PointsState,
   mmAddress: Address,
   marketId: Hex
@@ -57,14 +57,14 @@ const redistributeMarketPointsToVaultUsers = (
  *
  * Map over the vault positions into the different markets and redistribute the points to the users of the vault
  */
-const redistributeToMetaMorphoUsers = (state: PointsState, mmAddress: Address) => {
+export const redistributeOneMetaMorpho = (state: PointsState, mmAddress: Address) => {
   const vaultMarkets = Object.values(state.positions)
     .filter(({ user }) => user === mmAddress)
     .map(({ market }) => market);
 
   return vaultMarkets.reduce(
     (resultedState, market) =>
-      redistributeMarketPointsToVaultUsers(resultedState, mmAddress, market),
+      redistributeOneMarketToOneMetaMorpho(resultedState, mmAddress, market),
     state
   );
 };
@@ -75,8 +75,7 @@ const redistributeToMetaMorphoUsers = (state: PointsState, mmAddress: Address) =
  */
 export const redistributeMetaMorpho = (state: PointsState): PointsState =>
   Object.keys(state.metaMorphos).reduce(
-    (resultedState, metaMorpho) =>
-      redistributeToMetaMorphoUsers(resultedState, metaMorpho as Address),
+    (resultedState, metaMorpho) => redistributeOneMetaMorpho(resultedState, metaMorpho as Address),
     state
   );
 

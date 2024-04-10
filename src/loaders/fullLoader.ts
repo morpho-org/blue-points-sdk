@@ -140,6 +140,7 @@ export interface SubgraphConfig {
   url: string;
   querySize?: number;
   maxRetries?: number;
+  init?: RequestInit;
 }
 
 const subgraphCache = new Map<string, State>();
@@ -172,11 +173,16 @@ export const loadFullFromSubgraph = async (
 
     while (hasMore) {
       const fetch = () =>
-        fetchSubgraph(subgraph.url, query, {
-          block,
-          first: querySize,
-          ...lastIds,
-        }).then(parseSubgraphData);
+        fetchSubgraph(
+          subgraph.url,
+          query,
+          {
+            block,
+            first: querySize,
+            ...lastIds,
+          },
+          subgraph.init
+        ).then(parseSubgraphData);
 
       let retries = 0;
       let isSuccessFull = false;
