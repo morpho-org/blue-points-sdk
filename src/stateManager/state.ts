@@ -4,9 +4,9 @@ import {
   Market,
   MarketShards,
   MetaMorpho,
-  MetaMorphoShards,
   MetaMorphoPosition,
   MetaMorphoPositionShards,
+  MetaMorphoShards,
   Position,
   PositionShards,
 } from "../types";
@@ -25,3 +25,12 @@ export interface ShardsState {
   metaMorphos: EntityMap<MetaMorphoShards>;
   metaMorphoPositions: EntityMap<MetaMorphoPositionShards>;
 }
+
+export const cloneShardsState = (state: ShardsState) => {
+  return {
+    markets: { ...state.markets },
+    positions: { ...state.positions },
+    metaMorphos: { ...state.metaMorphos },
+    metaMorphoPositions: { ...state.metaMorphoPositions },
+  };
+};

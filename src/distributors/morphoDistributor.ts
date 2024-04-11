@@ -3,6 +3,7 @@ import { Address, concat, Hex } from "viem";
 import { freemmer } from "./utils";
 import { State } from "../stateManager";
 
+export const getPositionId = (market: Hex, user: Address) => concat([market, user]).toString();
 export const initPosition = (market: Hex, user: Address): Position => ({
   ...initPositionPoints(market, user),
   supplyShares: 0n,
@@ -11,7 +12,7 @@ export const initPosition = (market: Hex, user: Address): Position => ({
   lastUpdate: 0n,
 });
 export const initPositionPoints = (market: Hex, user: Address): PositionShards => ({
-  id: concat([market, user]).toString(),
+  id: getPositionId(market, user),
   market,
   user,
   supplyShards: 0n,
@@ -70,7 +71,7 @@ export const handleMorphoTx = (
     throw new Error(`Market ${market} not found`);
   }
 
-  const position = state.positions[concat([market, user]).toString()] ?? initPosition(market, user);
+  const position = state.positions[getPositionId(market, user)] ?? initPosition(market, user);
 
   const marketWithPoints = computeMarketPoints(marketEntity, timestamp);
   const positionWithPoints = computePositionPoints(position, timestamp);

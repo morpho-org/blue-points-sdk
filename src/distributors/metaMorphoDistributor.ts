@@ -10,6 +10,9 @@ export const initMetaMorpho = (address: Address): MetaMorpho => ({
   lastUpdate: 0n,
 });
 
+export const getMetaMorphoPositionId = (metaMorphoAddress: Address, user: Address) =>
+  concat([metaMorphoAddress, user]).toString();
+
 export const initMetaMorphoPosition = (
   metaMorphoAddress: Address,
   user: Address
@@ -22,7 +25,7 @@ export const initMetaMorphoPointsPosition = (
   metaMorphoAddress: Address,
   user: Address
 ): MetaMorphoPositionShards => ({
-  id: concat([metaMorphoAddress, user]).toString(),
+  id: getMetaMorphoPositionId(metaMorphoAddress, user),
   metaMorpho: metaMorphoAddress,
   user,
   supplyShards: 0n,
@@ -60,7 +63,7 @@ const handleMetaMorphoTx = (
 
   const metamorphoWithPoints = computeMetaMorphoVaultPoints(metaMorphoEntity, timestamp);
   const positionWithPoints = computeMetaMorphoPositionPoints(
-    state.metaMorphoPositions[concat([metaMorpho, user]).toString()] ??
+    state.metaMorphoPositions[getMetaMorphoPositionId(metaMorpho, user)] ??
       initMetaMorphoPosition(metaMorpho, user),
     timestamp
   );

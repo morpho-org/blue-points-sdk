@@ -1,7 +1,7 @@
-import { ShardsState } from "../stateManager";
+import { cloneShardsState, ShardsState } from "../stateManager";
 
 export const reduceMarketAndVaultsFromPositions = (_state: ShardsState) => {
-  let state = Object.assign({}, _state);
+  let state = cloneShardsState(_state);
 
   state = Object.values(state.positions).reduce(
     (resultedState, { market: marketId, supplyShards, borrowShards, collateralShards }) => {
@@ -26,6 +26,7 @@ export const reduceMarketAndVaultsFromPositions = (_state: ShardsState) => {
     },
     state
   );
+
   return state;
 };
 

@@ -1,4 +1,4 @@
-import { ShardsState } from "../stateManager";
+import { cloneShardsState, ShardsState } from "../stateManager";
 import { Address } from "viem";
 
 export const blacklistingAddress = (
@@ -9,6 +9,8 @@ export const blacklistingAddress = (
     blacklistedAddresses = [blacklistedAddresses];
   }
   const blacklisted = new Set(blacklistedAddresses);
+
+  // We first blacklist all the blue positions that belong to the blacklisted addresses
   const blacklistedPositionsState = Object.values(state.positions)
     .filter(({ user }) => blacklisted.has(user))
     .reduce(
@@ -22,9 +24,10 @@ export const blacklistingAddress = (
 
         return resultingState;
       },
-      state
+      cloneShardsState(state)
     );
 
+  // We then blacklist all the metamorpho positions that belong to the blacklisted addresses
   return Object.values(state.metaMorphoPositions)
     .filter(({ user }) => blacklisted.has(user))
     .reduce((resultingState, { id, supplyShards, metaMorpho: metamorphoAddress }) => {
