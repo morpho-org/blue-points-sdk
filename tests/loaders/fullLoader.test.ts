@@ -1,4 +1,6 @@
 import * as sinon from "sinon";
+import { getAddress } from "viem";
+
 import {
   fullLoaderQuery,
   loadFullFromSubgraph,
@@ -6,8 +8,8 @@ import {
   resetCache,
   setConfig,
 } from "../../src";
-import { getAddress } from "viem";
 import * as config from "../../src";
+
 describe("Full loader", () => {
   setConfig({
     cacheEnabled: false,
@@ -216,7 +218,6 @@ describe("Full loader", () => {
 
   test("should be able to fetch the subgraph multiple times without pagination", async () => {
     fetchStub.callsFake(async (url, options) => {
-      console.log("call");
       switch (url) {
         case subgraphUrl:
           return new Response(JSON.stringify(state), { status: 200 });
@@ -252,7 +253,6 @@ describe("Full loader", () => {
 
   it("should be able to fetch the subgraph multiple times with pagination", async () => {
     fetchStub.callsFake(async (url, options) => {
-      console.log(fetchStub!.callCount);
       let paginatedState: object = {};
       if (fetchStub!.callCount > 2)
         paginatedState = {
@@ -337,7 +337,6 @@ describe("Full loader", () => {
   });
 
   it("should parse correctly the graph result", () => {
-    console.log(parseSubgraphData(state.data));
     expect(parseSubgraphData(state.data)).toStrictEqual({
       markets: Object.values(parsedState.markets),
       positions: Object.values(parsedState.positions),
@@ -348,7 +347,6 @@ describe("Full loader", () => {
 
   it("should use cache for the same block fetch called twice", async () => {
     fetchStub.callsFake(async (url, options) => {
-      console.log("call");
       switch (url) {
         case subgraphUrl:
           return new Response(JSON.stringify(state), { status: 200 });
@@ -383,7 +381,6 @@ describe("Full loader", () => {
 
   it("should not use cache for 2 different block fetches", async () => {
     fetchStub.callsFake(async (url, options) => {
-      console.log("call");
       switch (url) {
         case subgraphUrl:
           return new Response(JSON.stringify(state), { status: 200 });
