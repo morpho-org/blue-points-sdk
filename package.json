@@ -2,7 +2,12 @@
   "name": "@morpho-org/blue-shards-sdk",
   "version": "1.0.0",
   "main": "lib/index.js",
-  "files": ["lib", "README.md", "LICENSE", "package.json"],
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "repository": "git@github.com:morpho-org/blue-points-sdk.git",
   "author": "Julien-devatom <julien@morpho.xyz>",
   "license": "MIT",
@@ -15,19 +20,21 @@
     "lint:fix": "prettier --write src"
   },
   "dependencies": {
+    "@openzeppelin/merkle-tree": "^1.0.6",
     "immer": "^10.0.4",
-    "viem": "^2.9.15",
-    "@openzeppelin/merkle-tree": "^1.0.6"
+    "viem": "^2.9.15"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.6",
+    "@types/sinon": "^17.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
+    "sinon": "^17.0.1",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.4"

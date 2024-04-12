@@ -5,7 +5,7 @@ import { getAddress } from "viem";
 import { areStatesEqual, distributeUpTo, stateDiff } from "../distributors";
 import { getConfig } from "../index";
 
-const query = `query All($block: Int! 
+export const fullLoaderQuery = `query All($block: Int! 
   $first: Int!
   $lastMarketsId: ID!
   $lastPositionsId: ID!
@@ -65,6 +65,8 @@ export const parseSubgraphData = (
   markets:
     subgraphData.markets?.map((m: any) => ({
       id: m.id,
+      loanToken: getAddress(m.loanToken),
+      collateralToken: getAddress(m.collateralToken),
       totalSupplyShares: BigInt(m.totalSupplyShares),
       totalBorrowShares: BigInt(m.totalBorrowShares),
       totalCollateral: BigInt(m.totalCollateral),
@@ -113,6 +115,8 @@ export interface SubgraphConfig {
 
 const subgraphCache = new Map<string, State>();
 
+export const resetCache = () => void subgraphCache.clear();
+
 export const loadFullFromSubgraph = async (
   subgraph: SubgraphConfig,
   block: number
@@ -143,7 +147,7 @@ export const loadFullFromSubgraph = async (
       const fetch = () =>
         fetchSubgraph(
           subgraph.url,
-          query,
+          fullLoaderQuery,
           {
             block,
             first: querySize,
