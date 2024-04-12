@@ -5,15 +5,16 @@ import { Market, MorphoTx, Position, PositionShards, PositionType } from "../typ
 
 import { freemmer } from "./utils";
 
-export const getPositionId = (market: Hex, user: Address) => concat([market, user]).toString();
+export const getPositionId = (market: Hex, user: Address) =>
+  concat([market, user]).toString().toLowerCase();
 export const initPosition = (market: Hex, user: Address): Position => ({
-  ...initPositionPoints(market, user),
+  ...initPositionShards(market, user),
   supplyShares: 0n,
   borrowShares: 0n,
   collateral: 0n,
   lastUpdate: 0n,
 });
-export const initPositionPoints = (market: Hex, user: Address): PositionShards => ({
+export const initPositionShards = (market: Hex, user: Address): PositionShards => ({
   id: getPositionId(market, user),
   market,
   user,
@@ -22,30 +23,26 @@ export const initPositionPoints = (market: Hex, user: Address): PositionShards =
   collateralShards: 0n,
 });
 
-export const computeMarketPoints = (_market: Market, timestamp: bigint) =>
+export const computeMarketShards = (_market: Market, timestamp: bigint) =>
   freemmer.produce(_market, (market) => {
     const deltaT = timestamp - market.lastUpdate;
     if (deltaT < 0) {
       throw new Error(`Market ${_market.id} has a future lastUpdate`);
     }
 
-    if (market.totalSupplyShares > 0n) {
-      const supplyShardsEmitted = deltaT * market.totalSupplyShares;
-      market.totalSupplyShards += supplyShardsEmitted;
-    }
-    if (market.totalBorrowShares > 0n) {
-      const borrowShardsEmitted = deltaT * market.totalBorrowShares;
-      market.totalBorrowShards += borrowShardsEmitted;
-    }
-    if (market.totalCollateral > 0n) {
-      const collateralShardsEmitted = deltaT * market.totalCollateral;
-      market.totalCollateralShards += collateralShardsEmitted;
-    }
+    const supplyShardsEmitted = deltaT * market.totalSupplyShares;
+    market.totalSupplyShards += supplyShardsEmitted;
+
+    const borrowShardsEmitted = deltaT * market.totalBorrowShares;
+    market.totalBorrowShards += borrowShardsEmitted;
+
+    const collateralShardsEmitted = deltaT * market.totalCollateral;
+    market.totalCollateralShards += collateralShardsEmitted;
 
     market.lastUpdate = timestamp;
   });
 
-export const computePositionPoints = (_position: Position, timestamp: bigint) =>
+export const computePositionShards = (_position: Position, timestamp: bigint) =>
   freemmer.produce(_position, (position) => {
     const deltaT = timestamp - position.lastUpdate;
     if (deltaT < 0) {
@@ -75,8 +72,8 @@ export const handleMorphoTx = (
 
   const position = state.positions[getPositionId(market, user)] ?? initPosition(market, user);
 
-  const marketWithPoints = computeMarketPoints(marketEntity, timestamp);
-  const positionWithPoints = computePositionPoints(position, timestamp);
+  const marketWithPoints = computeMarketShards(marketEntity, timestamp);
+  const positionWithPoints = computePositionShards(position, timestamp);
 
   return freemmer.produce(state, (draft) => {
     draft.markets[market] = marketWithPoints;

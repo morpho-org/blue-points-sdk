@@ -4,7 +4,7 @@ import { blacklistingAddress, ShardsState, cloneShardsState } from "..";
 
 import { MORPHO_ADDRESS } from "./constants";
 import { getMetaMorphoPositionId, initMetaMorphoPointsPosition } from "./metaMorphoDistributor";
-import { getPositionId, initPositionPoints } from "./morphoDistributor";
+import { getPositionId, initPositionShards } from "./morphoDistributor";
 import { freemmer } from "./utils";
 
 /**
@@ -36,7 +36,7 @@ export const redistributeOneMarketToOneMetaMorpho = (
 
       // We concat the previous market points of the user with the points accrued through the metamorpho vault.
       const userMarketPosition =
-        state.positions[userMarketPosId] ?? initPositionPoints(marketId, user);
+        state.positions[userMarketPosId] ?? initPositionShards(marketId, user);
       const userShardsRedistribution = (totalVaultMarketShards * supplyShards) / metaMorphoShards;
 
       userMarketPosition.supplyShards += userShardsRedistribution;

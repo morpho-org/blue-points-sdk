@@ -4,7 +4,7 @@ import {
   computeMetaMorphoPositionPoints,
   computeMetaMorphoVaultPoints,
 } from "./metaMorphoDistributor";
-import { computeMarketPoints, computePositionPoints } from "./morphoDistributor";
+import { computeMarketShards, computePositionShards } from "./morphoDistributor";
 import { mapValues } from "./utils";
 
 const distributedStateCache = new Map<number, ShardsState>();
@@ -70,10 +70,10 @@ export const distributeUpTo = (state: State, timestamp: bigint): ShardsState => 
     return distributedStateCache.get(Number(timestamp))!;
   }
 
-  const markets = mapValues(state.markets, (market) => computeMarketPoints(market, timestamp));
+  const markets = mapValues(state.markets, (market) => computeMarketShards(market, timestamp));
 
   const positions = mapValues(state.positions, (position) =>
-    computePositionPoints(position, timestamp)
+    computePositionShards(position, timestamp)
   );
 
   const metaMorphos = mapValues(state.metaMorphos, (metaMorpho) =>

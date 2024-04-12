@@ -1,7 +1,6 @@
 import * as sinon from "sinon";
 import { getAddress } from "viem";
 
-import { SubgraphError } from "../../lib/subgraph";
 import {
   fullLoaderQuery,
   loadFullFromSubgraph,
@@ -10,6 +9,7 @@ import {
   setConfig,
 } from "../../src";
 import * as config from "../../src";
+import { SubgraphError } from "../../src/subgraph";
 
 import { parsedState, state } from "./mocks";
 
