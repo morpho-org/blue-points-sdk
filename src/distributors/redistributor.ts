@@ -1,9 +1,11 @@
-import { freemmer } from "./utils";
 import { Address, Hex } from "viem";
+
 import { blacklistingAddress, ShardsState, cloneShardsState } from "..";
-import { getPositionId, initPositionPoints } from "./morphoDistributor";
+
 import { MORPHO_ADDRESS } from "./constants";
 import { getMetaMorphoPositionId, initMetaMorphoPointsPosition } from "./metaMorphoDistributor";
+import { getPositionId, initPositionPoints } from "./morphoDistributor";
+import { freemmer } from "./utils";
 
 /**
  * Redistribute the market points of a vault to the users of the vault

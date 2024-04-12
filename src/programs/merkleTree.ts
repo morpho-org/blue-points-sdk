@@ -1,6 +1,8 @@
-import { UserRewards } from "./programs";
 import { Address, getAddress } from "viem";
+
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+
+import { UserRewards } from "./programs";
 
 export const orderAndArrayifyLeaves = (userRewards: UserRewards[]) =>
   userRewards

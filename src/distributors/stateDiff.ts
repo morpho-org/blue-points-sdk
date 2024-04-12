@@ -1,6 +1,7 @@
 import { State } from "../stateManager";
-import { mapValues } from "./utils";
 import { ShardsState } from "../stateManager";
+
+import { mapValues } from "./utils";
 
 export const stateDiff = (state: ShardsState, newState: ShardsState): ShardsState => {
   const markets = mapValues(newState.markets, (market, id) => {

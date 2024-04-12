@@ -1,7 +1,9 @@
-import { ShardsState } from "../stateManager/state";
 import { Address, Hex } from "viem";
-import { getTimeframeFromSubgraph, SnapshotConfig, SubgraphConfigs } from "../loaders";
+
 import { redistributeAll } from "../distributors";
+import { getTimeframeFromSubgraph, SnapshotConfig, SubgraphConfigs } from "../loaders";
+import { ShardsState } from "../stateManager/state";
+
 import { computeMerkleTree } from "./merkleTree";
 
 export interface MarketProgramConfig {

@@ -1,9 +1,10 @@
+import { getAddress } from "viem";
+
+import { areStatesEqual, distributeUpTo, stateDiff } from "../distributors";
+import { getConfig } from "../index";
 import { State } from "../stateManager";
 import { fetchSubgraph } from "../subgraph";
 import { Market, MetaMorpho, MetaMorphoPosition, Position } from "../types";
-import { getAddress } from "viem";
-import { areStatesEqual, distributeUpTo, stateDiff } from "../distributors";
-import { getConfig } from "../index";
 
 export const fullLoaderQuery = `query All($block: Int! 
   $first: Int!

@@ -1,6 +1,8 @@
 import { Address, concat } from "viem";
-import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionShards, MetaMorphoTx } from "../types";
+
 import { State } from "../stateManager";
+import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionShards, MetaMorphoTx } from "../types";
+
 import { freemmer } from "./utils";
 
 export const initMetaMorpho = (address: Address): MetaMorpho => ({

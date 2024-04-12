@@ -1,5 +1,6 @@
-import { cloneShardsState, ShardsState } from "../stateManager";
 import { Address } from "viem";
+
+import { cloneShardsState, ShardsState } from "../stateManager";
 
 export const blacklistingAddress = (
   state: ShardsState,
