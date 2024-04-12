@@ -1,6 +1,7 @@
 import * as sinon from "sinon";
 import { getAddress } from "viem";
 
+import { SubgraphError } from "../../lib/subgraph";
 import {
   fullLoaderQuery,
   loadFullFromSubgraph,
@@ -222,5 +223,25 @@ describe("Full loader", () => {
     expect(fetchStub.calledTwice).toBeTruthy();
     getConfigStub.restore();
     resetCache();
+  });
+  it("should retry & throw if there is an error", async () => {
+    fetchStub.callsFake(
+      async (url, options) =>
+        new Response(JSON.stringify({ errors: [{ message: "Error", location: [] }] }), {
+          status: 200,
+        })
+    );
+
+    await expect(
+      loadFullFromSubgraph(
+        {
+          url: subgraphUrl,
+          maxRetries: 2,
+        },
+        1
+      )
+    ).rejects.toEqual(new SubgraphError([{ message: "Error", location: [] }]));
+
+    expect(fetchStub.calledThrice).toBeTruthy();
   });
 });

@@ -145,6 +145,7 @@ export const loadFullFromSubgraph = async (
     const querySize = subgraph.querySize ?? 1000;
 
     while (hasMore) {
+      let retries = 0;
       const fetch = () =>
         fetchSubgraph(
           subgraph.url,
@@ -157,11 +158,12 @@ export const loadFullFromSubgraph = async (
           subgraph.init
         ).then(parseSubgraphData);
 
-      let retries = 0;
       let isSuccessFull = false;
-      while (retries < (subgraph?.maxRetries ?? 3) && !isSuccessFull) {
+      while (!isSuccessFull) {
         const fetchingResult = await fetch().catch((err) => {
-          console.error(`Error fetching subgraph ${subgraph.url} retrying...`, err);
+          if (retries >= (subgraph?.maxRetries ?? 3)) {
+            throw err;
+          }
           retries++;
         });
         if (fetchingResult) {
