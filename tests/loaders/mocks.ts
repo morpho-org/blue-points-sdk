@@ -1,12 +1,12 @@
 import { getAddress } from "viem";
 
+import { State } from "../../src";
+
 export const state = {
   data: {
     markets: [
       {
         id: "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b",
-        loanToken: "0x6b175474e89094c44da98b954eedeac495271d0f",
-        collateralToken: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
         totalSupplyShares: "1000000000000000000000000",
         totalBorrowShares: "900000000000000000000000",
         totalCollateral: "10000",
@@ -17,8 +17,6 @@ export const state = {
       },
       {
         id: "0x06f2842602373d247c4934f7656e513955ccc4c377f0febc0d9ca2c3bcc191b1",
-        loanToken: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-        collateralToken: "0x83f20f44975d03b1b09e64809b757c47f942beea",
         totalSupplyShares: "500000000000",
         totalBorrowShares: "900246302003",
         totalCollateral: "4000000000000000000",
@@ -105,12 +103,10 @@ export const state = {
   },
 };
 
-export const parsedState = {
+export const parsedState: State = {
   markets: {
     "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b": {
       id: "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b",
-      loanToken: getAddress("0x6b175474e89094c44da98b954eedeac495271d0f"),
-      collateralToken: getAddress("0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"),
       totalSupplyShares: 1000000000000000000000000n,
       totalBorrowShares: 900000000000000000000000n,
       totalCollateral: 10000n,
@@ -121,8 +117,6 @@ export const parsedState = {
     },
     "0x06f2842602373d247c4934f7656e513955ccc4c377f0febc0d9ca2c3bcc191b1": {
       id: "0x06f2842602373d247c4934f7656e513955ccc4c377f0febc0d9ca2c3bcc191b1",
-      loanToken: getAddress("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"),
-      collateralToken: getAddress("0x83f20f44975d03b1b09e64809b757c47f942beea"),
       totalSupplyShares: 500000000000n,
       totalBorrowShares: 900246302003n,
       totalCollateral: 4000000000000000000n,

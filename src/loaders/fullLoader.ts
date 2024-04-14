@@ -15,9 +15,6 @@ export const fullLoaderQuery = `query All($block: Int!
   ) {
   markets(first: $first block: {number: $block} where: {id_gt: $lastMarketsId} orderBy: id) {
     id
-    loanToken
-    collateralToken
-    
     totalSupplyShares
     totalBorrowShares
     totalCollateral
@@ -66,8 +63,6 @@ export const parseSubgraphData = (
   markets:
     subgraphData.markets?.map((m: any) => ({
       id: m.id,
-      loanToken: getAddress(m.loanToken),
-      collateralToken: getAddress(m.collateralToken),
       totalSupplyShares: BigInt(m.totalSupplyShares),
       totalBorrowShares: BigInt(m.totalBorrowShares),
       totalCollateral: BigInt(m.totalCollateral),

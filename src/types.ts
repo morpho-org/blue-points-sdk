@@ -24,11 +24,6 @@ export interface MarketShards extends Entity {
   /* The ID of the market. This is the same as the onchain id, lowercased. */
   id: Hex;
 
-  /** The Checksummed address of the loan token. */
-  loanToken: Address;
-  /** The Checksummed address of the collateral token. */
-  collateralToken: Address;
-
   /** The total supply shards in the market.
    *
    * __Note__: This should be equal to the sum of all supply shards in the market positions.

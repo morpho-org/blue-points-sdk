@@ -81,9 +81,6 @@ const marketsQuery = `query Markets(
     id_in: $markets
     } orderBy: id) {
         id
-        loanToken
-        collateralToken
-        
         totalSupplyShares
         totalBorrowShares
         totalCollateral

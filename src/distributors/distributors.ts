@@ -12,20 +12,11 @@ const distributedStateCache = new Map<number, ShardsState>();
 const cleanPointsState = (state: State): ShardsState => {
   const markets = mapValues(
     state.markets,
-    ({
+    ({ totalSupplyShards, totalCollateralShards, totalBorrowShards, id }) => ({
       totalSupplyShards,
       totalCollateralShards,
       totalBorrowShards,
       id,
-      loanToken,
-      collateralToken,
-    }) => ({
-      totalSupplyShards,
-      totalCollateralShards,
-      totalBorrowShards,
-      id,
-      loanToken,
-      collateralToken,
     })
   );
 
