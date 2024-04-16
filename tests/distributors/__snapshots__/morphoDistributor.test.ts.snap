@@ -2,26 +2,26 @@
 
 exports[`Morpho distributor should initPosition create the correct entity 1`] = `
 {
-  "borrowShards": 0n,
+  "borrowPoints": 0n,
   "borrowShares": 0n,
   "collateral": 0n,
-  "collateralShards": 0n,
+  "collateralPoints": 0n,
   "id": "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b51382c7e0ff4dd26683b3356f4fd1320f9cf3327",
   "lastUpdate": 0n,
   "market": "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b",
-  "supplyShards": 0n,
+  "supplyPoints": 0n,
   "supplyShares": 0n,
   "user": "0x51382C7E0ff4dD26683B3356f4FD1320f9cf3327",
 }
 `;
 
-exports[`Morpho distributor should initPositionShards create the correct entity 1`] = `
+exports[`Morpho distributor should initPositionPoints create the correct entity 1`] = `
 {
-  "borrowShards": 0n,
-  "collateralShards": 0n,
+  "borrowPoints": 0n,
+  "collateralPoints": 0n,
   "id": "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b51382c7e0ff4dd26683b3356f4fd1320f9cf3327",
   "market": "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b",
-  "supplyShards": 0n,
+  "supplyPoints": 0n,
   "user": "0x51382C7E0ff4dD26683B3356f4FD1320f9cf3327",
 }
 `;

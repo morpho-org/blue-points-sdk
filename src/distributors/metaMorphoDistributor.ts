@@ -1,14 +1,14 @@
 import { Address, concat } from "viem";
 
 import { State } from "../stateManager";
-import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionShards, MetaMorphoTx } from "../types";
+import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionPoints, MetaMorphoTx } from "../types";
 
 import { freemmer } from "./utils";
 
 export const initMetaMorpho = (address: Address): MetaMorpho => ({
   id: address,
   totalShares: 0n,
-  totalShards: 0n,
+  totalPoints: 0n,
   lastUpdate: 0n,
 });
 
@@ -26,11 +26,11 @@ export const initMetaMorphoPosition = (
 export const initMetaMorphoPointsPosition = (
   metaMorphoAddress: Address,
   user: Address
-): MetaMorphoPositionShards => ({
+): MetaMorphoPositionPoints => ({
   id: getMetaMorphoPositionId(metaMorphoAddress, user),
   metaMorpho: metaMorphoAddress,
   user,
-  supplyShards: 0n,
+  supplyPoints: 0n,
 });
 
 export const computeMetaMorphoVaultPoints = (_metaMorpho: MetaMorpho, timestamp: bigint) =>
@@ -40,8 +40,8 @@ export const computeMetaMorphoVaultPoints = (_metaMorpho: MetaMorpho, timestamp:
       throw new Error(`MetaMorpho ${_metaMorpho.id} has a future lastUpdate`);
     }
     if (metaMorpho.totalShares > 0n) {
-      const shardsEmitted = deltaT * metaMorpho.totalShares;
-      metaMorpho.totalShards += shardsEmitted;
+      const pointsEmitted = deltaT * metaMorpho.totalShares;
+      metaMorpho.totalPoints += pointsEmitted;
     }
     metaMorpho.lastUpdate = timestamp;
   });
@@ -52,8 +52,8 @@ export const computeMetaMorphoPositionPoints = (_position: MetaMorphoPosition, t
     if (deltaT < 0) {
       throw new Error(`MetaMorphoPosition ${_position.id} has a future lastUpdate`);
     }
-    const shardsReceived = deltaT * position.shares;
-    position.supplyShards += shardsReceived;
+    const pointsReceived = deltaT * position.shares;
+    position.supplyPoints += pointsReceived;
     position.lastUpdate = timestamp;
   });
 

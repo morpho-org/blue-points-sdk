@@ -20,32 +20,32 @@ export interface Entity {
  * MarketPoints is the points representation of the Market entity.
  * It contains aggregated values that are derivated from the positions.
  */
-export interface MarketShards extends Entity {
+export interface MarketPoints extends Entity {
   /* The ID of the market. This is the same as the onchain id, lowercased. */
   id: Hex;
 
-  /** The total supply shards in the market.
+  /** The total supply points in the market.
    *
-   * __Note__: This should be equal to the sum of all supply shards in the market positions.
+   * __Note__: This should be equal to the sum of all supply points in the market positions.
    */
-  totalSupplyShards: bigint;
-  /** The total borrow shards in the market.
+  totalSupplyPoints: bigint;
+  /** The total borrow points in the market.
    *
-   * __Note__: This should be equal to the sum of all borrow shards in the market positions.
+   * __Note__: This should be equal to the sum of all borrow points in the market positions.
    */
-  totalBorrowShards: bigint;
+  totalBorrowPoints: bigint;
   /** The total collateral in the market.
    *
    * __Note__: This should be equal to the sum of all collateral in the market positions.
    */
-  totalCollateralShards: bigint;
+  totalCollateralPoints: bigint;
 }
 
 /**
  * Market is the entity that represents a market in the system.
  * It extends the points and add indexes + timestamps, used to compute a market snapshot.
  */
-export interface Market extends MarketShards {
+export interface Market extends MarketPoints {
   totalSupplyShares: bigint;
   totalBorrowShares: bigint;
   totalCollateral: bigint;
@@ -55,27 +55,27 @@ export interface Market extends MarketShards {
 
 /**
  * PositionPoints is the points representation of the Position entity.
- * It contains all the points & shards of a user position in a given market
+ * It contains all the points & points of a user position in a given market
  */
-export interface PositionShards extends Entity {
+export interface PositionPoints extends Entity {
   /** The Checksummed address of the user. */
   user: Address;
   /** The ID of the market. This is the same as the onchain id, lowercased. */
   market: Hex;
 
-  /** The total supply shards in the position. */
-  supplyShards: bigint;
-  /** The total borrow shards in the position. */
-  borrowShards: bigint;
+  /** The total supply points in the position. */
+  supplyPoints: bigint;
+  /** The total borrow points in the position. */
+  borrowPoints: bigint;
   /** The total collateral in the position. */
-  collateralShards: bigint;
+  collateralPoints: bigint;
 }
 
 /**
  * Position is the entity that represents a user position in the system.
  * It extends the points and add indexes + timestamps, used to compute a position snapshot.
  */
-export interface Position extends PositionShards {
+export interface Position extends PositionPoints {
   /** The total supply shares of the position, at the time used to retrieve the state */
   supplyShares: bigint;
   /** The total borrow shares of the position, at the time used to retrieve the state */
@@ -92,15 +92,15 @@ export interface Position extends PositionShards {
  *
  * It contains aggregated values that are derivated from the vault positions.
  */
-export interface MetaMorphoShards extends Entity {
+export interface MetaMorphoPoints extends Entity {
   /** The Checksummed address of the vault. */
   id: Address;
 
-  /** The total supply shards in the vault.
+  /** The total supply points in the vault.
    *
-   * __Note__: This should be equal to the sum of all supply shards in the vault positions.
+   * __Note__: This should be equal to the sum of all supply points in the vault positions.
    */
-  totalShards: bigint;
+  totalPoints: bigint;
 
   /** The total supply points in the vault.
    *
@@ -113,7 +113,7 @@ export interface MetaMorphoShards extends Entity {
  *
  * It extends the points and add indexes + timestamps, used to compute a MetaMorpho snapshot.
  */
-export interface MetaMorpho extends MetaMorphoShards {
+export interface MetaMorpho extends MetaMorphoPoints {
   /** The total shares of the vault, at the time used to retrieve the state */
   totalShares: bigint;
 
@@ -124,21 +124,21 @@ export interface MetaMorpho extends MetaMorphoShards {
 /**
  * MetaMorphoPositionPoints is the points representation of the MetaMorphoPosition entity.
  */
-export interface MetaMorphoPositionShards extends Entity {
+export interface MetaMorphoPositionPoints extends Entity {
   /** The Checksummed address of the user. */
   user: Address;
   /** The Checksummed address of the vault. */
   metaMorpho: Address;
 
-  /** The total supply shards in the position. */
-  supplyShards: bigint;
+  /** The total supply points in the position. */
+  supplyPoints: bigint;
 }
 
 /**
  * MetaMorphoPosition is the entity that represents a user position in the system.
  * It extends the points and add indexes + timestamps, used to compute a position snapshot.
  */
-export interface MetaMorphoPosition extends MetaMorphoPositionShards {
+export interface MetaMorphoPosition extends MetaMorphoPositionPoints {
   /** The total shares of the position, at the time used to retrieve the state */
   shares: bigint;
 

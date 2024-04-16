@@ -1,5 +1,5 @@
 {
-  "name": "@morpho-org/blue-shards-sdk",
+  "name": "@morpho-org/blue-points-sdk",
   "version": "1.0.0",
   "main": "lib/index.js",
   "files": [

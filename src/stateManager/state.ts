@@ -2,13 +2,13 @@ import {
   Entity,
   EntityId,
   Market,
-  MarketShards,
+  MarketPoints,
   MetaMorpho,
   MetaMorphoPosition,
-  MetaMorphoPositionShards,
-  MetaMorphoShards,
+  MetaMorphoPositionPoints,
+  MetaMorphoPoints,
   Position,
-  PositionShards,
+  PositionPoints,
 } from "../types";
 
 type EntityMap<T extends Entity> = Record<EntityId, T>;
@@ -19,14 +19,14 @@ export interface State {
   metaMorphos: EntityMap<MetaMorpho>;
   metaMorphoPositions: EntityMap<MetaMorphoPosition>;
 }
-export interface ShardsState {
-  markets: EntityMap<MarketShards>;
-  positions: EntityMap<PositionShards>;
-  metaMorphos: EntityMap<MetaMorphoShards>;
-  metaMorphoPositions: EntityMap<MetaMorphoPositionShards>;
+export interface PointsState {
+  markets: EntityMap<MarketPoints>;
+  positions: EntityMap<PositionPoints>;
+  metaMorphos: EntityMap<MetaMorphoPoints>;
+  metaMorphoPositions: EntityMap<MetaMorphoPositionPoints>;
 }
 
-export const cloneShardsState = (state: ShardsState) => {
+export const clonePointsState = (state: PointsState) => {
   return {
     markets: { ...state.markets },
     positions: { ...state.positions },

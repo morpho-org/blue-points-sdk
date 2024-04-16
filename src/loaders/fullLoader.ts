@@ -18,9 +18,9 @@ export const fullLoaderQuery = `query All($block: Int!
     totalSupplyShares
     totalBorrowShares
     totalCollateral
-    totalSupplyShards
-    totalBorrowShards
-    totalCollateralShards
+    totalSupplyPoints
+    totalBorrowPoints
+    totalCollateralPoints
     lastUpdate
   }
   positions(first: $first block: {number: $block} where: {id_gt: $lastPositionsId} orderBy: id) {
@@ -30,16 +30,16 @@ export const fullLoaderQuery = `query All($block: Int!
     supplyShares
     borrowShares
     collateral
-    supplyShards
-    borrowShards
-    collateralShards
+    supplyPoints
+    borrowPoints
+    collateralPoints
     lastUpdate
   }
 
   metaMorphos(first: $first block: {number: $block} where: {id_gt: $lastMetaMorphosId} orderBy: id) {
     id
     totalShares
-    totalShards
+    totalPoints
     lastUpdate
   }
   
@@ -48,7 +48,7 @@ export const fullLoaderQuery = `query All($block: Int!
     metaMorpho {id}
     user {id}
     shares
-    supplyShards
+    supplyPoints
     lastUpdate
   }
 }`;
@@ -66,9 +66,9 @@ export const parseSubgraphData = (
       totalSupplyShares: BigInt(m.totalSupplyShares),
       totalBorrowShares: BigInt(m.totalBorrowShares),
       totalCollateral: BigInt(m.totalCollateral),
-      totalSupplyShards: BigInt(m.totalSupplyShards),
-      totalBorrowShards: BigInt(m.totalBorrowShards),
-      totalCollateralShards: BigInt(m.totalCollateralShards),
+      totalSupplyPoints: BigInt(m.totalSupplyPoints),
+      totalBorrowPoints: BigInt(m.totalBorrowPoints),
+      totalCollateralPoints: BigInt(m.totalCollateralPoints),
       lastUpdate: BigInt(m.lastUpdate),
     })) ?? [],
   positions:
@@ -79,16 +79,16 @@ export const parseSubgraphData = (
       supplyShares: BigInt(p.supplyShares),
       borrowShares: BigInt(p.borrowShares),
       collateral: BigInt(p.collateral),
-      supplyShards: BigInt(p.supplyShards),
-      borrowShards: BigInt(p.borrowShards),
-      collateralShards: BigInt(p.collateralShards),
+      supplyPoints: BigInt(p.supplyPoints),
+      borrowPoints: BigInt(p.borrowPoints),
+      collateralPoints: BigInt(p.collateralPoints),
       lastUpdate: BigInt(p.lastUpdate),
     })) ?? [],
   metaMorphos:
     subgraphData.metaMorphos?.map((m: any) => ({
       id: getAddress(m.id),
       totalShares: BigInt(m.totalShares),
-      totalShards: BigInt(m.totalShards),
+      totalPoints: BigInt(m.totalPoints),
       lastUpdate: BigInt(m.lastUpdate),
     })) ?? [],
   metaMorphoPositions:
@@ -97,7 +97,7 @@ export const parseSubgraphData = (
       metaMorpho: getAddress(mp.metaMorpho.id),
       user: getAddress(mp.user.id),
       shares: BigInt(mp.shares),
-      supplyShards: BigInt(mp.supplyShards),
+      supplyPoints: BigInt(mp.supplyPoints),
       lastUpdate: BigInt(mp.lastUpdate),
     })) ?? [],
 });

@@ -1,12 +1,12 @@
 import { Address, getAddress, Hex } from "viem";
 
 import {
-  computeMarketShards,
-  computePositionShards,
+  computeMarketPoints,
+  computePositionPoints,
   getPositionId,
   handleMorphoTx,
   initPosition,
-  initPositionShards,
+  initPositionPoints,
 } from "../../src/distributors/morphoDistributor";
 import { Market, MorphoTx, Position, PositionType } from "../../src/types";
 
@@ -21,10 +21,10 @@ describe("Morpho distributor", () => {
       "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b51382c7e0ff4dd26683b3356f4fd1320f9cf3327"
     );
   });
-  it("should initPositionShards create the correct entity", () => {
+  it("should initPositionPoints create the correct entity", () => {
     const marketId: Hex = "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b";
     const user: Address = getAddress("0x51382c7e0ff4dd26683b3356f4fd1320f9cf3327");
-    const position = initPositionShards(marketId, user);
+    const position = initPositionPoints(marketId, user);
 
     expect(position).toMatchSnapshot();
   });
@@ -37,40 +37,40 @@ describe("Morpho distributor", () => {
     expect(position).toMatchSnapshot();
   });
 
-  it("should computeMarketShards update the suupply shards correctly", () => {
+  it("should computeMarketPoints update the suupply points correctly", () => {
     const market = state.markets[
       "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b"
     ] as Market;
     const timestamp = 1712113403n + 10n;
 
-    const editedMarket = computeMarketShards(market, timestamp);
+    const editedMarket = computeMarketPoints(market, timestamp);
 
-    expect(editedMarket.totalSupplyShards).toEqual(
+    expect(editedMarket.totalSupplyPoints).toEqual(
       36000000000000000000000000n + 10n * market.totalSupplyShares
     );
-    expect(editedMarket.totalBorrowShards).toEqual(0n);
-    expect(editedMarket.totalCollateralShards).toEqual(19680000n + 10n * market.totalCollateral);
+    expect(editedMarket.totalBorrowPoints).toEqual(0n);
+    expect(editedMarket.totalCollateralPoints).toEqual(19680000n + 10n * market.totalCollateral);
     expect(editedMarket.lastUpdate).toEqual(timestamp);
 
     // check if the original market is not mutated
-    expect(market.totalSupplyShards).toEqual(36000000000000000000000000n);
-    expect(market.totalBorrowShards).toEqual(0n);
-    expect(market.totalCollateralShards).toEqual(19680000n);
+    expect(market.totalSupplyPoints).toEqual(36000000000000000000000000n);
+    expect(market.totalBorrowPoints).toEqual(0n);
+    expect(market.totalCollateralPoints).toEqual(19680000n);
     expect(market.lastUpdate).toEqual(1712113403n);
   });
 
-  it("should computeMarketShards throws if there is a future lastUpdate", () => {
+  it("should computeMarketPoints throws if there is a future lastUpdate", () => {
     const market = state.markets[
       "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b"
     ] as Market;
     const timestamp = 1712113403n - 10n;
 
-    expect(() => computeMarketShards(market, timestamp)).toThrowError(
+    expect(() => computeMarketPoints(market, timestamp)).toThrowError(
       `Market ${market.id} has a future lastUpdate`
     );
   });
 
-  it("should computePositionShards update the shards correctly", () => {
+  it("should computePositionPoints update the points correctly", () => {
     const position = state.positions[
       getPositionId(
         "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b",
@@ -79,25 +79,25 @@ describe("Morpho distributor", () => {
     ] as Position;
     const timestamp = 1712671931n + 10n;
 
-    const editedPosition = computePositionShards(position, timestamp);
+    const editedPosition = computePositionPoints(position, timestamp);
 
-    expect(editedPosition.supplyShards).toEqual(0n + 10n * position.supplyShares);
-    expect(editedPosition.borrowShards).toEqual(
+    expect(editedPosition.supplyPoints).toEqual(0n + 10n * position.supplyShares);
+    expect(editedPosition.borrowPoints).toEqual(
       6304686594341171851252854600n + 10n * position.borrowShares
     );
-    expect(editedPosition.collateralShards).toEqual(
+    expect(editedPosition.collateralPoints).toEqual(
       2464285725637273525921295808n + 10n * position.collateral
     );
     expect(editedPosition.lastUpdate).toEqual(timestamp);
 
     // check if the original position is not mutated
-    expect(position.supplyShards).toEqual(0n);
-    expect(position.borrowShards).toEqual(6304686594341171851252854600n);
-    expect(position.collateralShards).toEqual(2464285725637273525921295808n);
+    expect(position.supplyPoints).toEqual(0n);
+    expect(position.borrowPoints).toEqual(6304686594341171851252854600n);
+    expect(position.collateralPoints).toEqual(2464285725637273525921295808n);
     expect(position.lastUpdate).toEqual(1712671931n);
   });
 
-  it("should computePositionShards throws if there is a future lastUpdate", () => {
+  it("should computePositionPoints throws if there is a future lastUpdate", () => {
     const position = state.positions[
       getPositionId(
         "0x06cb6aaee2279b46185dc2c8c107b4a56ff6550ea86063ec011fa4a52920841b",
@@ -107,7 +107,7 @@ describe("Morpho distributor", () => {
 
     const timestamp = 1712671931n - 10n;
 
-    expect(() => computePositionShards(position, timestamp)).toThrowError(
+    expect(() => computePositionPoints(position, timestamp)).toThrowError(
       `Position ${position.id} has a future lastUpdate`
     );
   });
@@ -138,25 +138,25 @@ describe("Morpho distributor", () => {
 
     const deltaTMarket = tx.timestamp - initialMarket.lastUpdate;
 
-    expect(finalMarket.totalSupplyShards).toEqual(
-      initialMarket.totalSupplyShards + deltaTMarket * initialMarket.totalSupplyShares
+    expect(finalMarket.totalSupplyPoints).toEqual(
+      initialMarket.totalSupplyPoints + deltaTMarket * initialMarket.totalSupplyShares
     );
-    expect(finalMarket.totalBorrowShards).toEqual(
-      initialMarket.totalBorrowShards + deltaTMarket * initialMarket.totalBorrowShares
+    expect(finalMarket.totalBorrowPoints).toEqual(
+      initialMarket.totalBorrowPoints + deltaTMarket * initialMarket.totalBorrowShares
     );
-    expect(finalMarket.totalCollateralShards).toEqual(
-      initialMarket.totalCollateralShards + deltaTMarket * initialMarket.totalCollateral
+    expect(finalMarket.totalCollateralPoints).toEqual(
+      initialMarket.totalCollateralPoints + deltaTMarket * initialMarket.totalCollateral
     );
     expect(finalMarket.lastUpdate).toEqual(tx.timestamp);
 
-    expect(finalPosition.supplyShards).toEqual(
-      initialPosition.supplyShards + 10n * initialPosition.supplyShares
+    expect(finalPosition.supplyPoints).toEqual(
+      initialPosition.supplyPoints + 10n * initialPosition.supplyShares
     );
-    expect(finalPosition.borrowShards).toEqual(
-      initialPosition.borrowShards + 10n * initialPosition.borrowShares
+    expect(finalPosition.borrowPoints).toEqual(
+      initialPosition.borrowPoints + 10n * initialPosition.borrowShares
     );
-    expect(finalPosition.collateralShards).toEqual(
-      initialPosition.collateralShards + 10n * initialPosition.collateral
+    expect(finalPosition.collateralPoints).toEqual(
+      initialPosition.collateralPoints + 10n * initialPosition.collateral
     );
 
     // accounting
@@ -194,20 +194,20 @@ describe("Morpho distributor", () => {
 
     const deltaTMarket = tx.timestamp - initialMarket.lastUpdate;
 
-    expect(finalMarket.totalSupplyShards).toEqual(
-      initialMarket.totalSupplyShards + deltaTMarket * initialMarket.totalSupplyShares
+    expect(finalMarket.totalSupplyPoints).toEqual(
+      initialMarket.totalSupplyPoints + deltaTMarket * initialMarket.totalSupplyShares
     );
-    expect(finalMarket.totalBorrowShards).toEqual(
-      initialMarket.totalBorrowShards + deltaTMarket * initialMarket.totalBorrowShares
+    expect(finalMarket.totalBorrowPoints).toEqual(
+      initialMarket.totalBorrowPoints + deltaTMarket * initialMarket.totalBorrowShares
     );
-    expect(finalMarket.totalCollateralShards).toEqual(
-      initialMarket.totalCollateralShards + deltaTMarket * initialMarket.totalCollateral
+    expect(finalMarket.totalCollateralPoints).toEqual(
+      initialMarket.totalCollateralPoints + deltaTMarket * initialMarket.totalCollateral
     );
     expect(finalMarket.lastUpdate).toEqual(tx.timestamp);
 
-    expect(finalPosition.supplyShards).toEqual(0n);
-    expect(finalPosition.borrowShards).toEqual(0n);
-    expect(finalPosition.collateralShards).toEqual(0n);
+    expect(finalPosition.supplyPoints).toEqual(0n);
+    expect(finalPosition.borrowPoints).toEqual(0n);
+    expect(finalPosition.collateralPoints).toEqual(0n);
 
     // accounting
     expect(finalPosition.supplyShares).toEqual(tx.shares);
@@ -245,25 +245,25 @@ describe("Morpho distributor", () => {
 
     const deltaTMarket = tx.timestamp - initialMarket.lastUpdate;
 
-    expect(finalMarket.totalSupplyShards).toEqual(
-      initialMarket.totalSupplyShards + deltaTMarket * initialMarket.totalSupplyShares
+    expect(finalMarket.totalSupplyPoints).toEqual(
+      initialMarket.totalSupplyPoints + deltaTMarket * initialMarket.totalSupplyShares
     );
-    expect(finalMarket.totalBorrowShards).toEqual(
-      initialMarket.totalBorrowShards + deltaTMarket * initialMarket.totalBorrowShares
+    expect(finalMarket.totalBorrowPoints).toEqual(
+      initialMarket.totalBorrowPoints + deltaTMarket * initialMarket.totalBorrowShares
     );
-    expect(finalMarket.totalCollateralShards).toEqual(
-      initialMarket.totalCollateralShards + deltaTMarket * initialMarket.totalCollateral
+    expect(finalMarket.totalCollateralPoints).toEqual(
+      initialMarket.totalCollateralPoints + deltaTMarket * initialMarket.totalCollateral
     );
     expect(finalMarket.lastUpdate).toEqual(tx.timestamp);
 
-    expect(finalPosition.supplyShards).toEqual(
-      initialPosition.supplyShards + 10n * initialPosition.supplyShares
+    expect(finalPosition.supplyPoints).toEqual(
+      initialPosition.supplyPoints + 10n * initialPosition.supplyShares
     );
-    expect(finalPosition.borrowShards).toEqual(
-      initialPosition.borrowShards + 10n * initialPosition.borrowShares
+    expect(finalPosition.borrowPoints).toEqual(
+      initialPosition.borrowPoints + 10n * initialPosition.borrowShares
     );
-    expect(finalPosition.collateralShards).toEqual(
-      initialPosition.collateralShards + 10n * initialPosition.collateral
+    expect(finalPosition.collateralPoints).toEqual(
+      initialPosition.collateralPoints + 10n * initialPosition.collateral
     );
 
     // accounting
@@ -302,25 +302,25 @@ describe("Morpho distributor", () => {
 
     const deltaTMarket = tx.timestamp - initialMarket.lastUpdate;
 
-    expect(finalMarket.totalSupplyShards).toEqual(
-      initialMarket.totalSupplyShards + deltaTMarket * initialMarket.totalSupplyShares
+    expect(finalMarket.totalSupplyPoints).toEqual(
+      initialMarket.totalSupplyPoints + deltaTMarket * initialMarket.totalSupplyShares
     );
-    expect(finalMarket.totalBorrowShards).toEqual(
-      initialMarket.totalBorrowShards + deltaTMarket * initialMarket.totalBorrowShares
+    expect(finalMarket.totalBorrowPoints).toEqual(
+      initialMarket.totalBorrowPoints + deltaTMarket * initialMarket.totalBorrowShares
     );
-    expect(finalMarket.totalCollateralShards).toEqual(
-      initialMarket.totalCollateralShards + deltaTMarket * initialMarket.totalCollateral
+    expect(finalMarket.totalCollateralPoints).toEqual(
+      initialMarket.totalCollateralPoints + deltaTMarket * initialMarket.totalCollateral
     );
     expect(finalMarket.lastUpdate).toEqual(tx.timestamp);
 
-    expect(finalPosition.supplyShards).toEqual(
-      initialPosition.supplyShards + 10n * initialPosition.supplyShares
+    expect(finalPosition.supplyPoints).toEqual(
+      initialPosition.supplyPoints + 10n * initialPosition.supplyShares
     );
-    expect(finalPosition.borrowShards).toEqual(
-      initialPosition.borrowShards + 10n * initialPosition.borrowShares
+    expect(finalPosition.borrowPoints).toEqual(
+      initialPosition.borrowPoints + 10n * initialPosition.borrowShares
     );
-    expect(finalPosition.collateralShards).toEqual(
-      initialPosition.collateralShards + 10n * initialPosition.collateral
+    expect(finalPosition.collateralPoints).toEqual(
+      initialPosition.collateralPoints + 10n * initialPosition.collateral
     );
 
     // accounting

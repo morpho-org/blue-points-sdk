@@ -1,47 +1,47 @@
-import { ShardsState, getConfig, State } from "..";
+import { PointsState, getConfig, State } from "..";
 
 import {
   computeMetaMorphoPositionPoints,
   computeMetaMorphoVaultPoints,
 } from "./metaMorphoDistributor";
-import { computeMarketShards, computePositionShards } from "./morphoDistributor";
+import { computeMarketPoints, computePositionPoints } from "./morphoDistributor";
 import { mapValues } from "./utils";
 
-const distributedStateCache = new Map<number, ShardsState>();
+const distributedStateCache = new Map<number, PointsState>();
 
-const cleanPointsState = (state: State): ShardsState => {
+const cleanPointsState = (state: State): PointsState => {
   const markets = mapValues(
     state.markets,
-    ({ totalSupplyShards, totalCollateralShards, totalBorrowShards, id }) => ({
-      totalSupplyShards,
-      totalCollateralShards,
-      totalBorrowShards,
+    ({ totalSupplyPoints, totalCollateralPoints, totalBorrowPoints, id }) => ({
+      totalSupplyPoints,
+      totalCollateralPoints,
+      totalBorrowPoints,
       id,
     })
   );
 
   const positions = mapValues(
     state.positions,
-    ({ id, supplyShards, borrowShards, collateralShards, market, user }) => ({
+    ({ id, supplyPoints, borrowPoints, collateralPoints, market, user }) => ({
       id,
-      supplyShards,
-      borrowShards,
-      collateralShards,
+      supplyPoints,
+      borrowPoints,
+      collateralPoints,
       market,
       user,
     })
   );
 
-  const metaMorphos = mapValues(state.metaMorphos, ({ totalShards, id }) => ({
-    totalShards,
+  const metaMorphos = mapValues(state.metaMorphos, ({ totalPoints, id }) => ({
+    totalPoints,
     id,
   }));
 
   const metaMorphoPositions = mapValues(
     state.metaMorphoPositions,
-    ({ id, supplyShards, metaMorpho, user }) => ({
+    ({ id, supplyPoints, metaMorpho, user }) => ({
       id,
-      supplyShards,
+      supplyPoints,
       metaMorpho,
       user,
     })
@@ -55,16 +55,16 @@ const cleanPointsState = (state: State): ShardsState => {
   };
 };
 
-export const distributeUpTo = (state: State, timestamp: bigint): ShardsState => {
+export const distributeUpTo = (state: State, timestamp: bigint): PointsState => {
   const config = getConfig();
   if (config.cacheEnabled && distributedStateCache.has(Number(timestamp))) {
     return distributedStateCache.get(Number(timestamp))!;
   }
 
-  const markets = mapValues(state.markets, (market) => computeMarketShards(market, timestamp));
+  const markets = mapValues(state.markets, (market) => computeMarketPoints(market, timestamp));
 
   const positions = mapValues(state.positions, (position) =>
-    computePositionShards(position, timestamp)
+    computePositionPoints(position, timestamp)
   );
 
   const metaMorphos = mapValues(state.metaMorphos, (metaMorpho) =>

@@ -2,7 +2,7 @@ import { Address, Hex } from "viem";
 
 import { redistributeAll } from "../distributors";
 import { getTimeframeFromSubgraph, SnapshotConfig, SubgraphConfigs } from "../loaders";
-import { ShardsState } from "../stateManager/state";
+import { PointsState } from "../stateManager/state";
 
 import { computeMerkleTree } from "./merkleTree";
 
@@ -29,7 +29,7 @@ export interface UserRewards {
   rewards: bigint;
 }
 export const distributeMarketRewards = (
-  state: ShardsState,
+  state: PointsState,
   {
     market,
     rewardToken,
@@ -46,13 +46,13 @@ export const distributeMarketRewards = (
 
   const usersRewards = Object.values(state.positions)
     .filter(({ market: m }) => m === market)
-    .map(({ user, supplyShards, borrowShards, collateralShards }) => {
+    .map(({ user, supplyPoints, borrowPoints, collateralPoints }) => {
       const userTokensSupplySide =
-        (supplyShards * tokensToDistributeSupplySide) / marketState.totalSupplyShards;
+        (supplyPoints * tokensToDistributeSupplySide) / marketState.totalSupplyPoints;
       const userTokensBorrowSide =
-        (borrowShards * tokensToDistributeBorrowSide) / marketState.totalBorrowShards;
+        (borrowPoints * tokensToDistributeBorrowSide) / marketState.totalBorrowPoints;
       const userTokensCollateralSide =
-        (collateralShards * tokensToDistributeCollateralSide) / marketState.totalCollateralShards;
+        (collateralPoints * tokensToDistributeCollateralSide) / marketState.totalCollateralPoints;
 
       totalDistributedSupplySide += userTokensSupplySide;
       totalDistributedBorrowSide += userTokensBorrowSide;
@@ -91,7 +91,7 @@ export interface MetaMorphoProgramConfig {
 }
 
 export const distributeMetaMorphoRewards = (
-  state: ShardsState,
+  state: PointsState,
   { metaMorphoAddress, tokensToDistributeSupplySide, rewardToken }: MetaMorphoProgramConfig
 ) => {
   const metaMorpho = state.metaMorphos[metaMorphoAddress]!;
@@ -99,9 +99,9 @@ export const distributeMetaMorphoRewards = (
 
   const usersRewards = Object.values(state.metaMorphoPositions)
     .filter(({ metaMorpho }) => metaMorpho === metaMorphoAddress)
-    .map(({ user, supplyShards }) => {
+    .map(({ user, supplyPoints }) => {
       const userTokensSupplySide =
-        (supplyShards * tokensToDistributeSupplySide) / metaMorpho.totalShards;
+        (supplyPoints * tokensToDistributeSupplySide) / metaMorpho.totalPoints;
       totalDistributed += userTokensSupplySide;
       return {
         user,
@@ -133,11 +133,11 @@ export const computeTimeBoundedMarketRewards = async (
 
   const fullyRedistributedState = redistributeAll(state);
 
-  const rewards = distributeMarketRewards(fullyRedistributedState, config).usersRewards;
+  const { usersRewards } = distributeMarketRewards(fullyRedistributedState, config);
 
-  const usersRewards = mergeMarketRewards(rewards);
+  const mergedUsersRewards = mergeMarketRewards(usersRewards);
   return {
-    rewards,
-    ...computeMerkleTree(usersRewards),
+    rewards: mergedUsersRewards,
+    ...computeMerkleTree(mergedUsersRewards),
   };
 };

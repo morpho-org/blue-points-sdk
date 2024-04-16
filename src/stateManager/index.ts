@@ -1,2 +1,2 @@
-export type { State, ShardsState } from "./state";
-export { cloneShardsState } from "./state";
+export type { State, PointsState } from "./state";
+export { clonePointsState } from "./state";

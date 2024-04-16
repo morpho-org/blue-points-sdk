@@ -19,7 +19,7 @@ const userPositionsQuery = `query UserRewards(
     metaMorpho {id}
     user {id}
     shares
-    supplyShards
+    supplyPoints
     lastUpdate
   }
   positions(first: $first block: {number: $block} where: {
@@ -32,9 +32,9 @@ const userPositionsQuery = `query UserRewards(
     supplyShares
     borrowShares
     collateral
-    supplyShards
-    borrowShards
-    collateralShards
+    supplyPoints
+    borrowPoints
+    collateralPoints
     lastUpdate
   }
 }`;
@@ -51,7 +51,7 @@ const metaMorphoQuery = `query MetaMorphos(
   } orderBy: id) {
     id
     totalShares
-    totalShards
+    totalPoints
     lastUpdate
   }
   positions(first: $first block: {number: $block} where: {
@@ -64,9 +64,9 @@ const metaMorphoQuery = `query MetaMorphos(
     supplyShares
     borrowShares
     collateral
-    supplyShards
-    borrowShards
-    collateralShards
+    supplyPoints
+    borrowPoints
+    collateralPoints
     lastUpdate
   }
 }`;
@@ -84,9 +84,9 @@ const marketsQuery = `query Markets(
         totalSupplyShares
         totalBorrowShares
         totalCollateral
-        totalSupplyShards
-        totalBorrowShards
-        totalCollateralShards
+        totalSupplyPoints
+        totalBorrowPoints
+        totalCollateralPoints
         lastUpdate
     }
     }`;

@@ -1,44 +1,44 @@
-# Morpho Blue Shards SDK
+# Morpho Blue Points SDK
 
 ## Overview
-The Morpho Blue Shards SDK facilitates the distribution and management of shards within the ecosystems of Morpho and MetaMorpho users. It provides tools to accurately and efficiently compute and distribute these units of measure, enhancing rewards distribution over market positions.
+The Morpho Blue Points SDK facilitates the distribution and management of points within the ecosystems of Morpho and MetaMorpho users. It provides tools to accurately and efficiently compute and distribute these units of measure, enhancing rewards distribution over market positions.
 
 ## Definitions
-- **Shard**: A unit of measure representing a user's participation in a market. Users accrue 1e-6 shards per market share per second. The precision of shards equals the precision of underlying market shares plus six decimal places. For example, the precision for supply shards in a market with USDC as the loan asset is 18 (6+6+6).
+- **Shard**: A unit of measure representing a user's participation in a market. Users accrue 1e-6 points per market share per second. The precision of points equals the precision of underlying market shares plus six decimal places. For example, the precision for supply points in a market with USDC as the loan asset is 18 (6+6+6).
 
-Shards are used for proportion computations due to their precision. 
+Points are used for proportion computations due to their precision. 
 
 ## Features
 
-### Distribute shards on the user markets 
-The primary feature is the distribution of shards to users based on their market positions over time. This process utilizes a subgraph for indexing points.
+### Distribute points on the user markets 
+The primary feature is the distribution of points to users based on their market positions over time. This process utilizes a subgraph for indexing points.
 
 
-To do so, you have to use a subgraph that is indexing the shards. 
-You can check an example [here](https://github.com/morpho-org/blue-shards-subgraph) 
+To do so, you have to use a subgraph that is indexing the points. 
+You can check an example [here](https://github.com/morpho-org/blue-points-subgraph) 
 
 ```typescript
-import { getSnapshotFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { getSnapshotFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getSnapshotFromSubgraph(subgraphUrl, {
+  const pointsState = await getSnapshotFromSubgraph(subgraphUrl, {
     lastBlockNumber: 19191167,
     timestamp: 1707488903,
   });
 
   //dump the full state.
-  console.log(shardsState);
+  console.log(pointsState);
 };
 ```
 
-### Compute the shards between two snapshots
-Generally, you need to compute the shards between two timestamps. To do so, you can use the following function:
+### Compute the points between two snapshots
+Generally, you need to compute the points between two timestamps. To do so, you can use the following function:
 
 ```typescript
-import { getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -51,19 +51,19 @@ const distribute = async (subgraphUrl: string) => {
   });
 
   //dump the full state.
-  console.log(shardsState);
+  console.log(pointsState);
 }
 ```
 
-### retrieve the user shards
+### retrieve the user points
 
 The computation is redistributing to all the users. 
 
 ```typescript
-import { getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -76,35 +76,35 @@ const distribute = async (subgraphUrl: string) => {
   });
 
   const userAddress = "0x12345";
-  const userShardsPerMarkets = Object.values(shardsState.positions).filter(
+  const userPointsPerMarkets = Object.values(pointsState.positions).filter(
     ({ user }) => user === userAddress
   );
 
-  const userShardsPerMetaMorpho = Object.values(shardsState.metaMorphoPositions).filter(
+  const userPointsPerMetaMorpho = Object.values(pointsState.metaMorphoPositions).filter(
     ({ user }) => user === userAddress
   );
 
   //dump the full state.
-  console.log(userShardsPerMarkets, userShardsPerMetaMorpho);
+  console.log(userPointsPerMarkets, userPointsPerMetaMorpho);
 };
 
 ```
-> **Note**: The metamorpho shards are not the markets shards. They represent the proportion of the user inside of the metamorpho vault. If you want to recover the markets shards earned through the metamorpho vault, you have to check the redistribution section
+> **Note**: The metamorpho points are not the markets points. They represent the proportion of the user inside of the metamorpho vault. If you want to recover the markets points earned through the metamorpho vault, you have to check the redistribution section
 
 ## Redistribution
 
-### Redistribute the shards of the MetaMorpho vaults
-MetaMorpho vaults acts as a proxy of multiple users and are accumulating shards as the supply position on the morpho market is the vault itself. If you want to compute the markets points of the vault users, you have to redistribute the points. 
+### Redistribute the points of the MetaMorpho vaults
+MetaMorpho vaults acts as a proxy of multiple users and are accumulating points as the supply position on the morpho market is the vault itself. If you want to compute the markets points of the vault users, you have to redistribute the points. 
 
-After a redistribution, metamorpho users have now a virtual position on blue with their market shards accrued through the vault. We substract all the points redistributed to the vault position. Due to some approximation, the vault can have a small amount of points that are not redistributed.
+After a redistribution, metamorpho users have now a virtual position on blue with their market points accrued through the vault. We substract all the points redistributed to the vault position. Due to some approximation, the vault can have a small amount of points that are not redistributed.
 
-> **Note**: if the user has a position in the market, the shards are summed with the market shards earned through the vault.
+> **Note**: if the user has a position in the market, the points are summed with the market points earned through the vault.
 
 ```typescript
-import { redistributeMetaMorpho, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { redistributeMetaMorpho, getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -116,10 +116,10 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const redistributedShards = redistributeMetaMorpho(shardsState);
+  const redistributedPoints = redistributeMetaMorpho(pointsState);
 
   //dump the full state.
-  console.log(redistributedShards);
+  console.log(redistributedPoints);
 };
 ```
 
@@ -134,10 +134,10 @@ You can redistribute these points to the users that are using MetaMorpho as coll
 This is creating virtual vault positions for the users that are using the shares as collateral. 
 
 ```typescript
-import { redistributeVaultAsCollateral, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { redistributeVaultAsCollateral, getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -149,23 +149,23 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const { metaMorphoPositions } = redistributeVaultAsCollateral(shardsState);
+  const { metaMorphoPositions } = redistributeVaultAsCollateral(pointsState);
 
   //dump the metamorpho positions state.
   console.log(metaMorphoPositions);
 };
 ```
 
-## Redistribute all markets shards
-Generally, you will need to redistribute all the market shards. To do so, you have to first redistribute vault shards if they are used as collateral, and then redistribute to metamorpho users. 
+## Redistribute all markets points
+Generally, you will need to redistribute all the market points. To do so, you have to first redistribute vault points if they are used as collateral, and then redistribute to metamorpho users. 
 There is an helper function to do that:
 
 ```typescript
 
-import { redistributeAll, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { redistributeAll, getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -177,7 +177,7 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const { positions } = redistributeAll(shardsState);
+  const { positions } = redistributeAll(pointsState);
 
   //dump the positions state.
   console.log(positions);
@@ -189,14 +189,14 @@ const distribute = async (subgraphUrl: string) => {
 Modules are functions that take a state and return a modified state. They are used to modify the state to add custom functionalities.
 
 ### Blacklist module
-The blacklist module remove all the shards earned by a user (market & metamorpho shards). 
+The blacklist module remove all the points earned by a user (market & metamorpho points). 
 
 ```typescript
 
-import { blacklistingAddress, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { blacklistingAddress, getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -209,7 +209,7 @@ const distribute = async (subgraphUrl: string) => {
   });
 
   const blackListedAddress = "0x"; // Can also be an array of addresses.
-  const stateWithoutBlackListed = blacklistingAddress(shardsState, blackListedAddress);
+  const stateWithoutBlackListed = blacklistingAddress(pointsState, blackListedAddress);
   
   //dump the full state.
   console.log(stateWithoutBlackListed);
@@ -219,14 +219,14 @@ const distribute = async (subgraphUrl: string) => {
 ## Checkers
 
 Checkers permits to apply some checks on the state. 
-For example you can check if the market shards are consistent with the sum of the positions shards
+For example you can check if the market points are consistent with the sum of the positions points
 
 ```typescript
 
-import { checkShardsConsistency, getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { checkPointsConsistency, getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: subgraphUrl,
     from: {
       lastBlockNumber: 18977038,
@@ -238,15 +238,15 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  const { hasInconsistencies } = checkShardsConsistency(shardsState);
+  const { hasInconsistencies } = checkPointsConsistency(pointsState);
   
   console.log(hasInconsistencies);
 };
 
 ```
-since there is no division on the shards accounting, the shards should always be consistent.
+since there is no division on the points accounting, the points should always be consistent.
 
-The consistency checkers are returning the state with the market & the vault shards reduced from the positions. It can help you to dump the state and check the inconsistencies.
+The consistency checkers are returning the state with the market & the vault points reduced from the positions. It can help you to dump the state and check the inconsistencies.
 
 ## Quorum security
 The main security concern of this kind of distribution mechanism is the reliability of a subgraph. 
@@ -255,14 +255,14 @@ To mitigate that, you can fetch multiple states from different subgraphs and che
 
 ```typescript
 
-import { getTimeframeFromSubgraph } from "@morpho-org/blue-shards-sdk";
+import { getTimeframeFromSubgraph } from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
   
   const satsumaSubgraphUrl = "";
   const selfHostedSubgraphUrl = "";
   const hostedServiceUrl = "";
-  const shardsState = await getTimeframeFromSubgraph({
+  const pointsState = await getTimeframeFromSubgraph({
     subgraphs: [
       {
         url: satsumaSubgraphUrl,
@@ -292,14 +292,14 @@ const distribute = async (subgraphUrl: string) => {
     },
   });
 
-  console.log(shardsState);
+  console.log(pointsState);
 };
 ```
 
 
 ## Programs
 
-Programs are a set of utilities to help you to redistribute tokens rewards by using the shards computation. 
+Programs are a set of utilities to help you to redistribute tokens rewards by using the points computation. 
 It helps you to build a merkle tree for a specific period.
 
 ### Time Bounded Market Program 
@@ -309,7 +309,7 @@ The time bounded market program is a program that is redistributing the rewards 
 import {
   computeTimeBoundedMarketRewards,
   TimeBoundedMarketProgram,
-} from "@morpho-org/blue-shards-sdk";
+} from "@morpho-org/blue-points-sdk";
 
 const distribute = async (subgraphUrl: string) => {
   const program: TimeBoundedMarketProgram = {

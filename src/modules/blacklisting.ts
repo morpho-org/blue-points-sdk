@@ -1,9 +1,9 @@
 import { Address } from "viem";
 
-import { cloneShardsState, ShardsState } from "../stateManager";
+import { clonePointsState, PointsState } from "../stateManager";
 
 export const blacklistingAddress = (
-  state: ShardsState,
+  state: PointsState,
   blacklistedAddresses: Address[] | Address
 ) => {
   if (!Array.isArray(blacklistedAddresses)) {
@@ -15,25 +15,25 @@ export const blacklistingAddress = (
   const blacklistedPositionsState = Object.values(state.positions)
     .filter(({ user }) => blacklisted.has(user))
     .reduce(
-      (resultingState, { collateralShards, market: marketId, borrowShards, supplyShards, id }) => {
+      (resultingState, { collateralPoints, market: marketId, borrowPoints, supplyPoints, id }) => {
         const market = resultingState.markets[marketId]!;
-        market.totalCollateralShards -= collateralShards;
-        market.totalBorrowShards -= borrowShards;
-        market.totalSupplyShards -= supplyShards;
+        market.totalCollateralPoints -= collateralPoints;
+        market.totalBorrowPoints -= borrowPoints;
+        market.totalSupplyPoints -= supplyPoints;
 
         delete resultingState.positions[id];
 
         return resultingState;
       },
-      cloneShardsState(state)
+      clonePointsState(state)
     );
 
   // We then blacklist all the metamorpho positions that belong to the blacklisted addresses
   return Object.values(state.metaMorphoPositions)
     .filter(({ user }) => blacklisted.has(user))
-    .reduce((resultingState, { id, supplyShards, metaMorpho: metamorphoAddress }) => {
+    .reduce((resultingState, { id, supplyPoints, metaMorpho: metamorphoAddress }) => {
       const metamorpho = resultingState.metaMorphos[metamorphoAddress]!;
-      metamorpho.totalShards -= supplyShards;
+      metamorpho.totalPoints -= supplyPoints;
 
       delete resultingState.metaMorphoPositions[id];
 

@@ -1,9 +1,9 @@
 import { State } from "../stateManager";
-import { ShardsState } from "../stateManager";
+import { PointsState } from "../stateManager";
 
 import { mapValues } from "./utils";
 
-export const stateDiff = (state: ShardsState, newState: ShardsState): ShardsState => {
+export const stateDiff = (state: PointsState, newState: PointsState): PointsState => {
   const markets = mapValues(newState.markets, (market, id) => {
     const initialState = state.markets[id];
     if (!initialState) {
@@ -11,9 +11,9 @@ export const stateDiff = (state: ShardsState, newState: ShardsState): ShardsStat
     }
     return {
       ...market,
-      totalSupplyShards: market.totalSupplyShards - initialState.totalSupplyShards,
-      totalBorrowShards: market.totalBorrowShards - initialState.totalBorrowShards,
-      totalCollateralShards: market.totalCollateralShards - initialState.totalCollateralShards,
+      totalSupplyPoints: market.totalSupplyPoints - initialState.totalSupplyPoints,
+      totalBorrowPoints: market.totalBorrowPoints - initialState.totalBorrowPoints,
+      totalCollateralPoints: market.totalCollateralPoints - initialState.totalCollateralPoints,
     };
   });
 
@@ -24,9 +24,9 @@ export const stateDiff = (state: ShardsState, newState: ShardsState): ShardsStat
     }
     return {
       ...position,
-      supplyShards: position.supplyShards - initialState.supplyShards,
-      borrowShards: position.borrowShards - initialState.borrowShards,
-      collateralShards: position.collateralShards - initialState.collateralShards,
+      supplyPoints: position.supplyPoints - initialState.supplyPoints,
+      borrowPoints: position.borrowPoints - initialState.borrowPoints,
+      collateralPoints: position.collateralPoints - initialState.collateralPoints,
     };
   });
 
@@ -37,7 +37,7 @@ export const stateDiff = (state: ShardsState, newState: ShardsState): ShardsStat
     }
     return {
       ...metaMorpho,
-      totalShards: metaMorpho.totalShards - initialState.totalShards,
+      totalPoints: metaMorpho.totalPoints - initialState.totalPoints,
     };
   });
 
@@ -48,7 +48,7 @@ export const stateDiff = (state: ShardsState, newState: ShardsState): ShardsStat
     }
     return {
       ...position,
-      supplyShards: position.supplyShards - initialState.supplyShards,
+      supplyPoints: position.supplyPoints - initialState.supplyPoints,
     };
   });
 
@@ -74,9 +74,9 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
         return false;
       }
       return (
-        market.totalSupplyShards === newMarket.totalSupplyShards &&
-        market.totalBorrowShards === newMarket.totalBorrowShards &&
-        market.totalCollateralShards === newMarket.totalCollateralShards
+        market.totalSupplyPoints === newMarket.totalSupplyPoints &&
+        market.totalBorrowPoints === newMarket.totalBorrowPoints &&
+        market.totalCollateralPoints === newMarket.totalCollateralPoints
       );
     }) &&
     Object.keys(state.positions).every((id) => {
@@ -86,9 +86,9 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
         return false;
       }
       return (
-        position.supplyShards === newPosition.supplyShards &&
-        position.borrowShards === newPosition.borrowShards &&
-        position.collateralShards === newPosition.collateralShards
+        position.supplyPoints === newPosition.supplyPoints &&
+        position.borrowPoints === newPosition.borrowPoints &&
+        position.collateralPoints === newPosition.collateralPoints
       );
     }) &&
     Object.keys(state.metaMorphos).every((id) => {
@@ -97,7 +97,7 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
       if (!newMetaMorpho) {
         return false;
       }
-      return metaMorpho.totalShards === newMetaMorpho.totalShards;
+      return metaMorpho.totalPoints === newMetaMorpho.totalPoints;
     }) &&
     Object.keys(state.metaMorphoPositions).every((id) => {
       const position = state.metaMorphoPositions[id]!;
@@ -105,7 +105,7 @@ export const areStatesEqual = (state: State, newState: State): boolean => {
       if (!newPosition) {
         return false;
       }
-      return position.supplyShards === newPosition.supplyShards;
+      return position.supplyPoints === newPosition.supplyPoints;
     })
   );
 };
