@@ -14,7 +14,6 @@
   "scripts": {
     "build": "tsc --build ./tsconfig.build.json",
     "test": "jest",
-    "prepare": "husky install",
     "typecheck": "tsc --noEmit",
     "lint": "prettier --check src",
     "lint:fix": "prettier --write src"
