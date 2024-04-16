@@ -8,7 +8,10 @@
     "LICENSE",
     "package.json"
   ],
-  "repository": "git@github.com:morpho-org/blue-points-sdk.git",
+  "repository": {
+    "url": "git@github.com:morpho-org/blue-points-sdk.git",
+    "type": "git"
+  },
   "author": "Julien-devatom <julien@morpho.xyz>",
   "license": "MIT",
   "scripts": {
