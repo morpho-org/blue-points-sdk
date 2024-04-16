@@ -296,40 +296,31 @@ const distribute = async (subgraphUrl: string) => {
 };
 ```
 
+## Client
 
-## Programs
-
-Programs are a set of utilities to help you to redistribute tokens rewards by using the points computation. 
-It helps you to build a merkle tree for a specific period.
-
-### Time Bounded Market Program 
-The time bounded market program is a program that is redistributing the rewards of a market for a specific period.
+The client is a simple way to interact with the points. It provides you getters, loaders, and a modular way to interact with the points. 
 
 ```typescript
-import {
-  computeTimeBoundedMarketRewards,
-  TimeBoundedMarketProgram,
-} from "@morpho-org/blue-points-sdk";
+import { PointsClient, RedistributorModule } from "@morpho-org/blue-points-sdk";
 
-const distribute = async (subgraphUrl: string) => {
-  const program: TimeBoundedMarketProgram = {
-    from: {
-      timestamp: 1704895619,
-      lastBlockNumber: 18977038,
-    },
-    to: {
-      timestamp: 1707488903,
-      lastBlockNumber: 19191167,
-    },
+const distribute = async (subgraph: string) => {
 
-    market: "0xc54d7acf14de29e0e5527cabd7a576506870346a78a11a6762e2cca66322ec41",
-    rewardToken: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
-    tokensToDistributeSupplySide: 7172090407823554462n,
-  };
-
-  const { lookupTree, merkleTree, rewards } = await computeTimeBoundedMarketRewards(
-    subgraphUrl,
-    program
+  const client = await PointsClient.getTimeframeFromSubgraph({
+        subgraphs: subgraph,
+        from: {
+          lastBlockNumber: 18977038,
+          timestamp: 1704895619,
+        },
+        to: {
+          lastBlockNumber: 19191167,
+          timestamp: 1707488903,
+        },
+      }, 
+     [new RedistributorModule()]
   );
-};
+  
+  const { markets, metaMorphos } = client.getAllUserPoints("0x12345");
+  
+  console.log(markets, metaMorphos);
+}
 ```

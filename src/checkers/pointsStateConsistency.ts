@@ -1,4 +1,4 @@
-import { clonePointsState, PointsState } from "../stateManager";
+import { clonePointsState, PointsState } from "../client";
 
 export const reduceMarketAndVaultsFromPositions = (_state: PointsState) => {
   let state = clonePointsState(_state);

@@ -1,6 +1,8 @@
 import { Address } from "viem";
 
-import { clonePointsState, PointsState } from "../stateManager";
+import { clonePointsState, PointsState } from "../client";
+
+import { Module } from "./index";
 
 export const blacklistingAddress = (
   state: PointsState,
@@ -40,3 +42,11 @@ export const blacklistingAddress = (
       return resultingState;
     }, blacklistedPositionsState);
 };
+
+export class BlacklistingModule implements Module {
+  constructor(public readonly blackListedAddresses: Address[] | Address) {}
+
+  handle(state: PointsState) {
+    return blacklistingAddress(state, this.blackListedAddresses);
+  }
+}

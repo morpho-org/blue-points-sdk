@@ -1,8 +1,8 @@
 import { getAddress } from "viem";
 
+import { State } from "../client";
 import { areStatesEqual, distributeUpTo, stateDiff } from "../distributors";
 import { getConfig } from "../index";
-import { State } from "../stateManager";
 import { fetchSubgraph } from "../subgraph";
 import { Market, MetaMorpho, MetaMorphoPosition, Position } from "../types";
 

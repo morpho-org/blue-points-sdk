@@ -1,8 +1,8 @@
 import { Address, Hex } from "viem";
 
+import { PointsState } from "../client/state";
 import { redistributeAll } from "../distributors";
 import { getTimeframeFromSubgraph, SnapshotConfig, SubgraphConfigs } from "../loaders";
-import { PointsState } from "../stateManager/state";
 
 import { computeMerkleTree } from "./merkleTree";
 

@@ -1,5 +1,5 @@
-import { State } from "../stateManager";
-import { PointsState } from "../stateManager";
+import { State } from "../client";
+import { PointsState } from "../client";
 
 import { mapValues } from "./utils";
 

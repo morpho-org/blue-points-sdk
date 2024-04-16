@@ -1,6 +1,6 @@
 import { Address, concat } from "viem";
 
-import { State } from "../stateManager";
+import { State } from "../client";
 import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionPoints, MetaMorphoTx } from "../types";
 
 import { freemmer } from "./utils";

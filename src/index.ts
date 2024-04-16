@@ -2,7 +2,7 @@ export { Address, Hex } from "./types";
 export * as BluePoints from "./types";
 
 export * from "./distributors";
-export * from "./stateManager";
+export * from "./client";
 export * from "./loaders";
 export * from "./programs";
 export * from "./modules";

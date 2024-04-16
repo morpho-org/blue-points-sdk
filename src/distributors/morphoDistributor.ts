@@ -1,6 +1,6 @@
 import { Address, concat, Hex } from "viem";
 
-import { State } from "../stateManager";
+import { State } from "../client";
 import { Market, MorphoTx, Position, PositionPoints, PositionType } from "../types";
 
 import { freemmer } from "./utils";

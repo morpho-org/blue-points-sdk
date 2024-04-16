@@ -1,6 +1,6 @@
 import { Address, Hex } from "viem";
 
-import { blacklistingAddress, PointsState, clonePointsState } from "..";
+import { blacklistingAddress, PointsState, clonePointsState, Module } from "..";
 
 import { MORPHO_ADDRESS } from "./constants";
 import { getPositionId, initPositionPoints } from "./morphoDistributor";
@@ -75,6 +75,12 @@ export const redistributeMetaMorpho = (state: PointsState): PointsState =>
     (resultedState, metaMorpho) => redistributeOneMetaMorpho(resultedState, metaMorpho as Address),
     clonePointsState(state)
   );
+
+export class RedistributorModule implements Module {
+  handle(state: PointsState) {
+    return redistributeAll(state);
+  }
+}
 
 /**
  * We first need to redistribute to the users that have used the vault as collateral
