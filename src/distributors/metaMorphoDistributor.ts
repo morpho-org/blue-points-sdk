@@ -3,8 +3,6 @@ import { Address, concat } from "viem";
 import { State } from "../client";
 import { MetaMorpho, MetaMorphoPosition, MetaMorphoPositionPoints, MetaMorphoTx } from "../types";
 
-import { freemmer } from "./utils";
-
 export const initMetaMorpho = (address: Address): MetaMorpho => ({
   id: address,
   totalShares: 0n,
@@ -33,29 +31,36 @@ export const initMetaMorphoPointsPosition = (
   supplyPoints: 0n,
 });
 
-export const computeMetaMorphoVaultPoints = (_metaMorpho: MetaMorpho, timestamp: bigint) =>
-  freemmer.produce(_metaMorpho, (metaMorpho) => {
-    const deltaT = timestamp - metaMorpho.lastUpdate;
-    if (deltaT < 0) {
-      throw new Error(`MetaMorpho ${_metaMorpho.id} has a future lastUpdate`);
-    }
-    if (metaMorpho.totalShares > 0n) {
-      const pointsEmitted = deltaT * metaMorpho.totalShares;
-      metaMorpho.totalPoints += pointsEmitted;
-    }
-    metaMorpho.lastUpdate = timestamp;
-  });
+export const computeMetaMorphoVaultPoints = (_metaMorpho: MetaMorpho, timestamp: bigint) => {
+  const metaMorpho = { ..._metaMorpho };
+  const deltaT = timestamp - metaMorpho.lastUpdate;
+  if (deltaT < 0) {
+    throw new Error(`MetaMorpho ${_metaMorpho.id} has a future lastUpdate`);
+  }
+  if (metaMorpho.totalShares > 0n) {
+    const pointsEmitted = deltaT * metaMorpho.totalShares;
+    metaMorpho.totalPoints += pointsEmitted;
+  }
+  metaMorpho.lastUpdate = timestamp;
 
-export const computeMetaMorphoPositionPoints = (_position: MetaMorphoPosition, timestamp: bigint) =>
-  freemmer.produce(_position, (position) => {
-    const deltaT = timestamp - position.lastUpdate;
-    if (deltaT < 0) {
-      throw new Error(`MetaMorphoPosition ${_position.id} has a future lastUpdate`);
-    }
-    const pointsReceived = deltaT * position.shares;
-    position.supplyPoints += pointsReceived;
-    position.lastUpdate = timestamp;
-  });
+  return metaMorpho;
+};
+
+export const computeMetaMorphoPositionPoints = (
+  _position: MetaMorphoPosition,
+  timestamp: bigint
+) => {
+  const position = { ..._position };
+  const deltaT = timestamp - position.lastUpdate;
+  if (deltaT < 0) {
+    throw new Error(`MetaMorphoPosition ${_position.id} has a future lastUpdate`);
+  }
+  const pointsReceived = deltaT * position.shares;
+  position.supplyPoints += pointsReceived;
+  position.lastUpdate = timestamp;
+
+  return position;
+};
 
 const handleMetaMorphoTx = (
   state: State,
@@ -69,12 +74,21 @@ const handleMetaMorphoTx = (
       initMetaMorphoPosition(metaMorpho, user),
     timestamp
   );
+  const modifiedState = {
+    ...state,
+    metaMorphos: { ...state.metaMorphos },
+    metaMorphoPositions: { ...state.metaMorphoPositions },
+  };
 
-  return freemmer.produce(state, (draft) => {
-    draft.metaMorphos[metaMorpho] = metamorphoWithPoints;
-    draft.metaMorphos[metaMorpho]!.totalShares += shares;
+  modifiedState.metaMorphos[metaMorpho] = {
+    ...metamorphoWithPoints,
+    totalShares: metamorphoWithPoints.totalShares + shares,
+  };
 
-    draft.metaMorphoPositions[positionWithPoints.id] = positionWithPoints;
-    draft.metaMorphoPositions[positionWithPoints.id]!.shares += shares;
-  });
+  modifiedState.metaMorphoPositions[positionWithPoints.id] = {
+    ...positionWithPoints,
+    shares: positionWithPoints.shares + shares,
+  };
+
+  return modifiedState;
 };

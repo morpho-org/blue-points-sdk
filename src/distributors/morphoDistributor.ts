@@ -3,8 +3,6 @@ import { Address, concat, Hex } from "viem";
 import { State } from "../client";
 import { Market, MorphoTx, Position, PositionPoints, PositionType } from "../types";
 
-import { freemmer } from "./utils";
-
 export const getPositionId = (market: Hex, user: Address) =>
   concat([market, user]).toString().toLowerCase();
 export const initPosition = (market: Hex, user: Address): Position => ({
@@ -23,43 +21,48 @@ export const initPositionPoints = (market: Hex, user: Address): PositionPoints =
   collateralPoints: 0n,
 });
 
-export const computeMarketPoints = (_market: Market, timestamp: bigint) =>
-  freemmer.produce(_market, (market) => {
-    const deltaT = timestamp - market.lastUpdate;
-    if (deltaT < 0) {
-      throw new Error(`Market ${_market.id} has a future lastUpdate`);
-    }
+export const computeMarketPoints = (_market: Market, timestamp: bigint) => {
+  const market = { ..._market };
 
-    const supplyPointsEmitted = deltaT * market.totalSupplyShares;
-    market.totalSupplyPoints += supplyPointsEmitted;
+  const deltaT = timestamp - market.lastUpdate;
+  if (deltaT < 0) {
+    throw new Error(`Market ${_market.id} has a future lastUpdate`);
+  }
 
-    const borrowPointsEmitted = deltaT * market.totalBorrowShares;
-    market.totalBorrowPoints += borrowPointsEmitted;
+  const supplyPointsEmitted = deltaT * market.totalSupplyShares;
+  market.totalSupplyPoints += supplyPointsEmitted;
 
-    const collateralPointsEmitted = deltaT * market.totalCollateral;
-    market.totalCollateralPoints += collateralPointsEmitted;
+  const borrowPointsEmitted = deltaT * market.totalBorrowShares;
+  market.totalBorrowPoints += borrowPointsEmitted;
 
-    market.lastUpdate = timestamp;
-  });
+  const collateralPointsEmitted = deltaT * market.totalCollateral;
+  market.totalCollateralPoints += collateralPointsEmitted;
 
-export const computePositionPoints = (_position: Position, timestamp: bigint) =>
-  freemmer.produce(_position, (position) => {
-    const deltaT = timestamp - position.lastUpdate;
-    if (deltaT < 0) {
-      throw new Error(`Position ${_position.id} has a future lastUpdate`);
-    }
+  market.lastUpdate = timestamp;
 
-    const supplyPointsAccrued = deltaT * position.supplyShares;
-    position.supplyPoints += supplyPointsAccrued;
+  return market;
+};
 
-    const borrowPointsAccrued = deltaT * position.borrowShares;
-    position.borrowPoints += borrowPointsAccrued;
+export const computePositionPoints = (_position: Position, timestamp: bigint) => {
+  const position = { ..._position };
+  const deltaT = timestamp - position.lastUpdate;
+  if (deltaT < 0) {
+    throw new Error(`Position ${_position.id} has a future lastUpdate`);
+  }
 
-    const collateralPointsAccrued = deltaT * position.collateral;
-    position.collateralPoints += collateralPointsAccrued;
+  const supplyPointsAccrued = deltaT * position.supplyShares;
+  position.supplyPoints += supplyPointsAccrued;
 
-    position.lastUpdate = timestamp;
-  });
+  const borrowPointsAccrued = deltaT * position.borrowShares;
+  position.borrowPoints += borrowPointsAccrued;
+
+  const collateralPointsAccrued = deltaT * position.collateral;
+  position.collateralPoints += collateralPointsAccrued;
+
+  position.lastUpdate = timestamp;
+
+  return position;
+};
 
 export const handleMorphoTx = (
   state: State,
@@ -75,22 +78,28 @@ export const handleMorphoTx = (
   const marketWithPoints = computeMarketPoints(marketEntity, timestamp);
   const positionWithPoints = computePositionPoints(position, timestamp);
 
-  return freemmer.produce(state, (draft) => {
-    draft.markets[market] = marketWithPoints;
-    draft.positions[positionWithPoints.id] = positionWithPoints;
-    switch (type) {
-      case PositionType.SUPPLY:
-        draft.markets[market]!.totalSupplyShares += shares;
-        draft.positions[positionWithPoints.id]!.supplyShares += shares;
-        break;
-      case PositionType.BORROW:
-        draft.markets[market]!.totalBorrowShares += shares;
-        draft.positions[positionWithPoints.id]!.borrowShares += shares;
-        break;
-      case PositionType.COLLATERAL:
-        draft.markets[market]!.totalCollateral += shares;
-        draft.positions[positionWithPoints.id]!.collateral += shares;
-        break;
-    }
-  });
+  const modifiedState = {
+    ...state,
+    markets: { ...state.markets },
+    positions: { ...state.positions },
+  };
+
+  modifiedState.markets[market] = marketWithPoints;
+  modifiedState.positions[positionWithPoints.id] = positionWithPoints;
+
+  switch (type) {
+    case PositionType.SUPPLY:
+      modifiedState.markets[market]!.totalSupplyShares += shares;
+      modifiedState.positions[positionWithPoints.id]!.supplyShares += shares;
+      break;
+    case PositionType.BORROW:
+      modifiedState.markets[market]!.totalBorrowShares += shares;
+      modifiedState.positions[positionWithPoints.id]!.borrowShares += shares;
+      break;
+    case PositionType.COLLATERAL:
+      modifiedState.markets[market]!.totalCollateral += shares;
+      modifiedState.positions[positionWithPoints.id]!.collateral += shares;
+      break;
+  }
+  return modifiedState;
 };

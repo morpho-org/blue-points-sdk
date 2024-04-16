@@ -23,8 +23,6 @@
     "lint:fix": "prettier --write src"
   },
   "dependencies": {
-    "@openzeppelin/merkle-tree": "^1.0.6",
-    "immer": "^10.0.4",
     "viem": "^2.9.15"
   },
   "devDependencies": {

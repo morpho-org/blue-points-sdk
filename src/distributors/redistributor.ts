@@ -4,7 +4,6 @@ import { blacklistingAddress, PointsState, clonePointsState, Module } from "..";
 
 import { MORPHO_ADDRESS } from "./constants";
 import { getPositionId, initPositionPoints } from "./morphoDistributor";
-import { freemmer } from "./utils";
 
 /**
  * Redistribute the market points of a vault to the users of the vault
@@ -15,39 +14,41 @@ export const redistributeOneMarketToOneMetaMorpho = (
   _state: PointsState,
   mmAddress: Address,
   marketId: Hex
-) =>
-  freemmer.produce(_state, (state) => {
-    // map over the non draft object for perf optimization
-    const mmPositions = Object.values(_state.metaMorphoPositions)
-      .filter((position) => position.metaMorpho === mmAddress)
-      .map((position) => position);
+) => {
+  const state = clonePointsState(_state);
+  // map over the non draft object for perf optimization
+  const mmPositions = Object.values(_state.metaMorphoPositions)
+    .filter((position) => position.metaMorpho === mmAddress)
+    .map((position) => position);
 
-    const mmMarketPositionId = getPositionId(marketId, mmAddress);
-    const totalVaultMarketPoints = state.positions[mmMarketPositionId]?.supplyPoints ?? 0n; // TODO: do we want to also redistribute the collateral points due to donation?
-    const metaMorphoPoints = state.metaMorphos[mmAddress]!.totalPoints;
+  const mmMarketPositionId = getPositionId(marketId, mmAddress);
+  const totalVaultMarketPoints = state.positions[mmMarketPositionId]?.supplyPoints ?? 0n; // TODO: do we want to also redistribute the collateral points due to donation?
+  const metaMorphoPoints = state.metaMorphos[mmAddress]!.totalPoints;
 
-    if (totalVaultMarketPoints === 0n || metaMorphoPoints === 0n) return;
+  if (totalVaultMarketPoints === 0n || metaMorphoPoints === 0n) return state;
 
-    let pointsRedistributed = 0n;
+  let pointsRedistributed = 0n;
 
-    mmPositions.forEach(({ user, supplyPoints }) => {
-      const userMarketPosId = getPositionId(marketId, user);
+  mmPositions.forEach(({ user, supplyPoints }) => {
+    const userMarketPosId = getPositionId(marketId, user);
 
-      // We concat the previous market points of the user with the points accrued through the metamorpho vault.
-      const userMarketPosition =
-        state.positions[userMarketPosId] ?? initPositionPoints(marketId, user);
-      const userPointsRedistribution = (totalVaultMarketPoints * supplyPoints) / metaMorphoPoints;
+    // We concat the previous market points of the user with the points accrued through the metamorpho vault.
+    const userMarketPosition =
+      state.positions[userMarketPosId] ?? initPositionPoints(marketId, user);
+    const userPointsRedistribution = (totalVaultMarketPoints * supplyPoints) / metaMorphoPoints;
 
-      userMarketPosition.supplyPoints += userPointsRedistribution;
+    userMarketPosition.supplyPoints += userPointsRedistribution;
 
-      pointsRedistributed += userPointsRedistribution;
+    pointsRedistributed += userPointsRedistribution;
 
-      state.positions[userMarketPosId] = userMarketPosition;
-    });
-
-    // The vault keep the roundings for itself
-    state.positions[mmMarketPositionId]!.supplyPoints -= pointsRedistributed;
+    state.positions[userMarketPosId] = userMarketPosition;
   });
+
+  // The vault keep the roundings for itself
+  state.positions[mmMarketPositionId]!.supplyPoints -= pointsRedistributed;
+
+  return state;
+};
 
 /**
  * Redistribute the points of the metamorpho to the users of the vault
