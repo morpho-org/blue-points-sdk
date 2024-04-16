@@ -8,6 +8,7 @@
     "LICENSE",
     "package.json"
   ],
+  "private": false,
   "repository": {
     "url": "git@github.com:morpho-org/blue-points-sdk.git",
     "type": "git"
