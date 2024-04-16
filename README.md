@@ -323,8 +323,8 @@ const distribute = async (subgraph: string) => {
           lastBlockNumber: 19191167,
           timestamp: 1707488903,
         },
-      }, 
-     [new RedistributorModule()]
+        modules: [new RedistributorModule()],
+      },
   );
   
   const { markets, metaMorphos } = client.getAllUserPoints("0x12345");

@@ -21,12 +21,17 @@ export default class PointsClient {
     return new PointsClient(state, modules);
   }
 
-  static async getTimeframeFromSubgraph(
-    subgraphs: SubgraphConfigs,
-    from: SnapshotConfig,
-    to: SnapshotConfig,
-    modules: Module[] = []
-  ): Promise<PointsClient> {
+  static async getTimeframeFromSubgraph({
+    subgraphs,
+    from,
+    to,
+    modules = [],
+  }: {
+    subgraphs: SubgraphConfigs;
+    from?: SnapshotConfig;
+    to: SnapshotConfig;
+    modules: Module[];
+  }): Promise<PointsClient> {
     const state = await getTimeframeFromSubgraph({ subgraphs, from, to });
     return new PointsClient(state, modules);
   }
