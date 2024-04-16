@@ -4,7 +4,6 @@ export * as BluePoints from "./types";
 export * from "./distributors";
 export * from "./client";
 export * from "./loaders";
-export * from "./programs";
 export * from "./modules";
 export * from "./checkers";
 
