@@ -11,7 +11,7 @@ export const initMetaMorpho = (address: Address): MetaMorpho => ({
 });
 
 export const getMetaMorphoPositionId = (metaMorphoAddress: Address, user: Address) =>
-  concat([metaMorphoAddress, user]).toString();
+  concat([metaMorphoAddress, user]).toString().toLowerCase();
 
 export const initMetaMorphoPosition = (
   metaMorphoAddress: Address,
@@ -62,7 +62,7 @@ export const computeMetaMorphoPositionPoints = (
   return position;
 };
 
-const handleMetaMorphoTx = (
+export const handleMetaMorphoTx = (
   state: State,
   { metaMorpho, user, timestamp, shares }: MetaMorphoTx
 ): State => {

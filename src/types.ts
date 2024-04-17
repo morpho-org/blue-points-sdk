@@ -157,13 +157,9 @@ export interface Tx extends Entity {
 
 export interface MetaMorphoTx extends Tx {
   metaMorpho: Address;
-  market: Hex;
   user: Address;
-
-  position: EntityId; // MetaMorphoPosition id;
   shares: bigint;
   timestamp: bigint;
-  type: PositionType;
 }
 
 export interface MorphoTx extends Tx {
