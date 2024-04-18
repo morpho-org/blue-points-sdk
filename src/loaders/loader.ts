@@ -138,7 +138,7 @@ export const parseSubgraphData = (
         mp.metaMorpho.lastUpdate !== undefined
       ) {
         metaMorphos.add({
-          id: mp.metaMorpho.id as Address,
+          id: getAddress(mp.metaMorpho.id as Address),
           totalShares: BigInt(mp.metaMorpho.totalShares),
           totalPoints: BigInt(mp.metaMorpho.totalPoints),
           lastUpdate: BigInt(mp.metaMorpho.lastUpdate),
