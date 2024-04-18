@@ -45,7 +45,7 @@ export const parseSubgraphData = (
   let rawMarkets = subgraphData.markets ?? [];
 
   const metaMorphos = new Set<MetaMorpho>(
-    ...(subgraphData.metaMorphos?.map((m: any) => {
+    subgraphData.metaMorphos?.map((m: any) => {
       if (Array.isArray(m.bluePositions)) {
         rawPositions = rawPositions.concat(
           m.bluePositions.filter(
@@ -86,7 +86,7 @@ export const parseSubgraphData = (
         totalPoints: BigInt(m.totalPoints),
         lastUpdate: BigInt(m.lastUpdate),
       };
-    }) ?? [])
+    }) ?? []
   );
 
   const positions = new Set<Position>(
