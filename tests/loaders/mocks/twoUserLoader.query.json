@@ -1,0 +1,685 @@
+{
+  "data": {
+    "positions": [
+      {
+        "id": "0x4009fa1d36c3819fc95212aa780b0c2afc69b9f0f4b76aa82141e2cd96105bea",
+        "user": {
+          "id": "0xf2e018258a20a046df85194e93db566a492db1eb"
+        },
+        "market": {
+          "id": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+          "totalSupplyShares": "34853011885835356465",
+          "totalBorrowShares": "27684149743609439377",
+          "totalCollateral": "15473519035626294748792",
+          "totalSupplyPoints": "172430943212628686890777452",
+          "totalBorrowPoints": "140181643532977861469285988",
+          "totalCollateralPoints": "62815212992171027343196955340",
+          "lastUpdate": "1713421823"
+        },
+        "supplyShares": "0",
+        "borrowShares": "1999714001230",
+        "collateral": "8600000000000000",
+        "supplyPoints": "0",
+        "borrowPoints": "0",
+        "collateralPoints": "0",
+        "lastUpdate": "1704745547"
+      },
+      {
+        "id": "0x4a6b77c938d3f9d4ae4f4a498692794ed75eb492267d7a9b53107824e887a509",
+        "user": {
+          "id": "0x6abfd6139c7c3cc270ee2ce132e309f59caaf6a2"
+        },
+        "market": {
+          "id": "0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d",
+          "totalSupplyShares": "847523997333266240161647613",
+          "totalBorrowShares": "835039442034336468036684461",
+          "totalCollateral": "804918832967901895768",
+          "totalSupplyPoints": "784386767607274814102064651322836",
+          "totalBorrowPoints": "1455577997307805864061602580256",
+          "totalCollateralPoints": "1389283259536479517997952",
+          "lastUpdate": "1713344903"
+        },
+        "supplyShares": "0",
+        "borrowShares": "829885076980693889618425627",
+        "collateral": "800000000000000000000",
+        "supplyPoints": "0",
+        "borrowPoints": "0",
+        "collateralPoints": "0",
+        "lastUpdate": "1713344903"
+      },
+      {
+        "id": "0x959716c78b9a090840d8a2461e3560c93b54f8f99dffbce569762f09f1c426cc",
+        "user": {
+          "id": "0x6abfd6139c7c3cc270ee2ce132e309f59caaf6a2"
+        },
+        "market": {
+          "id": "0x8e6aeb10c401de3279ac79b4b2ea15fc94b7d9cfc098d6c2a1ff7b2b26d9d02c",
+          "totalSupplyShares": "49657672841723338769814524513360",
+          "totalBorrowShares": "45093786853782944878489276993953",
+          "totalCollateral": "56361291730760666721198258",
+          "totalSupplyPoints": "60125326008685853058236497913484166896",
+          "totalBorrowPoints": "56207613115812751632571954832922013128",
+          "totalCollateralPoints": "75535643349382999294677224183160",
+          "lastUpdate": "1713394799"
+        },
+        "supplyShares": "498394106602675456004428059994",
+        "borrowShares": "0",
+        "collateral": "0",
+        "supplyPoints": "0",
+        "borrowPoints": "0",
+        "collateralPoints": "0",
+        "lastUpdate": "1711385399"
+      },
+      {
+        "id": "0xc0182cd6fc95e0943ffe3fbb84fff33fd3e0268083517abde688101777226f48",
+        "user": {
+          "id": "0x6abfd6139c7c3cc270ee2ce132e309f59caaf6a2"
+        },
+        "market": {
+          "id": "0x1247f1c237eceae0602eab1470a5061a6dd8f734ba88c7cdc5d6109fb0026b28",
+          "totalSupplyShares": "29925376355134210457760153400100",
+          "totalBorrowShares": "24711968419196911861420114591078",
+          "totalCollateral": "33891359343293608166914095",
+          "totalSupplyPoints": "51166886179209982255844710155985180548",
+          "totalBorrowPoints": "45745650447160160791154021752055149332",
+          "totalCollateralPoints": "75911777178036009061915043233632",
+          "lastUpdate": "1713411395"
+        },
+        "supplyShares": "498436553829331553507779050320",
+        "borrowShares": "0",
+        "collateral": "0",
+        "supplyPoints": "0",
+        "borrowPoints": "0",
+        "collateralPoints": "0",
+        "lastUpdate": "1711385399"
+      }
+    ],
+    "metaMorphoPositions": [
+      {
+        "id": "0x135ed163b972a21d06bc2d6a2ecffb9e0970c845a4b163f6a7ffb062f6a66e04",
+        "metaMorpho": {
+          "id": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+          "totalShares": "36000073272527556882899934",
+          "totalPoints": "150638406476208413823624784157856",
+          "lastUpdate": "1713421571",
+          "bluePositions": [
+            {
+              "id": "0x0fafc6c13b87d27dc4bb3a04d2e973fbfe0af74bdb7a944d22c67a04af53b415",
+              "user": {
+                "id": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb"
+              },
+              "market": {
+                "id": "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
+                "totalSupplyShares": "12596041264645191436",
+                "totalBorrowShares": "8072644936486901775",
+                "totalCollateral": "21401483310",
+                "totalSupplyPoints": "27824976610018037997029100",
+                "totalBorrowPoints": "21720333513222014396996796",
+                "totalCollateralPoints": "59810957786685312",
+                "lastUpdate": "1713415859"
+              },
+              "supplyShares": "9147148556614279723",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "14808481106549267534050080",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1712921411"
+            },
+            {
+              "id": "0x27686e27093fbb1eb2aedb5cf96a5096b789f1be4a37ca8e5edd116f3c5d151e",
+              "user": {
+                "id": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb"
+              },
+              "market": {
+                "id": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+                "totalSupplyShares": "34853011885835356465",
+                "totalBorrowShares": "27684149743609439377",
+                "totalCollateral": "15473519035626294748792",
+                "totalSupplyPoints": "172430943212628686890777452",
+                "totalBorrowPoints": "140181643532977861469285988",
+                "totalCollateralPoints": "62815212992171027343196955340",
+                "lastUpdate": "1713421823"
+              },
+              "supplyShares": "26810457723268001758",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "129455308724872481216141088",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1713421571"
+            },
+            {
+              "id": "0x68f5feb6fe42f70c2ccd5c7e65d512a4da389f5c066f9803877df4eeec5b5df2",
+              "user": {
+                "id": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb"
+              },
+              "market": {
+                "id": "0x06f2842602373d247c4934f7656e513955ccc4c377f0febc0d9ca2c3bcc191b1",
+                "totalSupplyShares": "500000000000",
+                "totalBorrowShares": "900246302003",
+                "totalCollateral": "4000000000000000000",
+                "totalSupplyPoints": "4418888682513304103796",
+                "totalBorrowPoints": "6752792770884622644300",
+                "totalCollateralPoints": "6770271578745516586530722520",
+                "lastUpdate": "1712049443"
+              },
+              "supplyShares": "0",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "4413475500513304103796",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1706094815"
+            },
+            {
+              "id": "0x7d0edc720718e70af7ca333fc1217ff780d7c8cb0639ef57fe4276a1a1e2fb8a",
+              "user": {
+                "id": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb"
+              },
+              "market": {
+                "id": "0x54efdee08e272e929034a8f26f7ca34b1ebe364b275391169b28c6d7db24dbc8",
+                "totalSupplyShares": "0",
+                "totalBorrowShares": "0",
+                "totalCollateral": "0",
+                "totalSupplyPoints": "1006342907496102192000000",
+                "totalBorrowPoints": "0",
+                "totalCollateralPoints": "0",
+                "lastUpdate": "1706004491"
+              },
+              "supplyShares": "0",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "1006342907496102192000000",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1706004491"
+            },
+            {
+              "id": "0x9e963c8d1d223d5e070bb73825659c28c1fbd6aeeb0d91d5695d02a014c5bc01",
+              "user": {
+                "id": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb"
+              },
+              "market": {
+                "id": "0x495130878b7d2f1391e21589a8bcaef22cbc7e1fbbd6866127193b3cc239d8b1",
+                "totalSupplyShares": "9935803905255",
+                "totalBorrowShares": "0",
+                "totalCollateral": "2208625709190712",
+                "totalSupplyPoints": "637064815817693034961992",
+                "totalBorrowPoints": "517015456954558205345748",
+                "totalCollateralPoints": "5506514721784639029769784160",
+                "lastUpdate": "1711353911"
+              },
+              "supplyShares": "0",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "637036951491532197250812",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1711353911"
+            }
+          ]
+        },
+        "user": {
+          "id": "0x6abfd6139c7c3cc270ee2ce132e309f59caaf6a2"
+        },
+        "shares": "337810840628184125856652",
+        "supplyPoints": "4697649292479389987214909641520",
+        "lastUpdate": "1712058335"
+      },
+      {
+        "id": "0x2698365e5031ce9848e895feaff9313dedbaa1d78e7750b1bc7dca2a75f36a13",
+        "metaMorpho": {
+          "id": "0x186514400e52270cef3d80e1c6f8d10a75d47344",
+          "totalShares": "3598839592446703193992937",
+          "totalPoints": "36092558843175402579851938460880",
+          "lastUpdate": "1713377867",
+          "bluePositions": [
+            {
+              "id": "0x12eaf3636f76813eb6073574dca2f5703c2470d9826cbbd4161cd1d1c62cd45c",
+              "user": {
+                "id": "0x186514400e52270cef3d80e1c6f8d10a75d47344"
+              },
+              "market": {
+                "id": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+                "totalSupplyShares": "34853011885835356465",
+                "totalBorrowShares": "27684149743609439377",
+                "totalCollateral": "15473519035626294748792",
+                "totalSupplyPoints": "172430943212628686890777452",
+                "totalBorrowPoints": "140181643532977861469285988",
+                "totalCollateralPoints": "62815212992171027343196955340",
+                "lastUpdate": "1713421823"
+              },
+              "supplyShares": "2478424231209423415",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "29236758255631385593885236",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1713377867"
+            },
+            {
+              "id": "0x1f2012de38cb6059f75599e34d421f3dd76385839d35930b06d04fa3a7196a83",
+              "user": {
+                "id": "0x186514400e52270cef3d80e1c6f8d10a75d47344"
+              },
+              "market": {
+                "id": "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
+                "totalSupplyShares": "12596041264645191436",
+                "totalBorrowShares": "8072644936486901775",
+                "totalCollateral": "21401483310",
+                "totalSupplyPoints": "27824976610018037997029100",
+                "totalBorrowPoints": "21720333513222014396996796",
+                "totalCollateralPoints": "59810957786685312",
+                "lastUpdate": "1713415859"
+              },
+              "supplyShares": "1113047949398584701",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "2135094568149256435483716",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1709196239"
+            }
+          ]
+        },
+        "user": {
+          "id": "0xf2e018258a20a046df85194e93db566a492db1eb"
+        },
+        "shares": "1998067203056669746",
+        "supplyPoints": "0",
+        "lastUpdate": "1706025887"
+      },
+      {
+        "id": "0x772f6eb353634a2137fdfa01023102a43056a769c9f92bad8964fdfbcfd024c4",
+        "metaMorpho": {
+          "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d",
+          "totalShares": "11147158767033518156131",
+          "totalPoints": "84685508194929118375296582864",
+          "lastUpdate": "1713399275",
+          "bluePositions": [
+            {
+              "id": "0x1786d95b47b5a44d56fd83dac52468f7ae6424964c680fbff37907223f8df2be",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0x3c83f77bde9541f8d3d82533b19bbc1f97eb2f1098bb991728acbfbede09cc5d",
+                "totalSupplyShares": "1000000000000000000000",
+                "totalBorrowShares": "50000000000000000000",
+                "totalCollateral": "100000000000000",
+                "totalSupplyPoints": "208669134818796714385766379986388",
+                "totalBorrowPoints": "80598000000000000000000000",
+                "totalCollateralPoints": "161216400000000000000",
+                "lastUpdate": "1709004851"
+              },
+              "supplyShares": "0",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "208667522450796714385766379986388",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1709004851"
+            },
+            {
+              "id": "0x30ff9b4b08620a235515982511f0a39c92e9cb4a409d78010303da7dc8e902c7",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d",
+                "totalSupplyShares": "847523997333266240161647613",
+                "totalBorrowShares": "835039442034336468036684461",
+                "totalCollateral": "804918832967901895768",
+                "totalSupplyPoints": "784386767607274814102064651322836",
+                "totalBorrowPoints": "1455577997307805864061602580256",
+                "totalCollateralPoints": "1389283259536479517997952",
+                "lastUpdate": "1713344903"
+              },
+              "supplyShares": "847523497333266240161647613",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "64878581936733953177711171250720",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1712739779"
+            },
+            {
+              "id": "0xccf6f78680b137412bcc3e96243a9fa6a98f403bcc8910ef335ea1613a665fb1",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0x1929f8139224cb7d5db8c270addc9ce366d37ad279e1135f73c0adce74b0f936",
+                "totalSupplyShares": "2593754697550138122213736139",
+                "totalBorrowShares": "2299637439133198656830220817",
+                "totalCollateral": "11771800942235703483264926",
+                "totalSupplyPoints": "4513193384920670812260316224255264",
+                "totalBorrowPoints": "3694703701081911750614436676363884",
+                "totalCollateralPoints": "18114167555451767584260460292244",
+                "lastUpdate": "1713399575"
+              },
+              "supplyShares": "2593754197550138122213736139",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "2801843222849879879776181974687620",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1712739779"
+            },
+            {
+              "id": "0xcff94c56f05c247f32f80f2af18e4e8d848036abc02c7837907da87b88c1280f",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0x58e212060645d18eab6d9b2af3d56fbc906a92ff5667385f616f662c70372284",
+                "totalSupplyShares": "0",
+                "totalBorrowShares": "0",
+                "totalCollateral": "0",
+                "totalSupplyPoints": "2683818412890108243620458044000000",
+                "totalBorrowPoints": "0",
+                "totalCollateralPoints": "0",
+                "lastUpdate": "1713183275"
+              },
+              "supplyShares": "0",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "2583771166054401897928149672000000",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1711392767"
+            },
+            {
+              "id": "0xffb5829ab5979cb442d597bd6e010cb58b22da016f0f4fca476c7043c9220b63",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0xc54d7acf14de29e0e5527cabd7a576506870346a78a11a6762e2cca66322ec41",
+                "totalSupplyShares": "10486472552235517235248420140",
+                "totalBorrowShares": "8779084735732391698546613870",
+                "totalCollateral": "8547737727057876867399",
+                "totalSupplyPoints": "82242784450094324355060900310397076",
+                "totalBorrowPoints": "70502717555711563719887235084277860",
+                "totalCollateralPoints": "68079757024970665230151357716",
+                "lastUpdate": "1713399275"
+              },
+              "supplyShares": "7711534695401326892396301489",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "76751312936750345684575499513411844",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1713399275"
+            }
+          ]
+        },
+        "user": {
+          "id": "0x6abfd6139c7c3cc270ee2ce132e309f59caaf6a2"
+        },
+        "shares": "221564678847136211727",
+        "supplyPoints": "0",
+        "lastUpdate": "1704825575"
+      },
+      {
+        "id": "0xac2669b28c4edde8fec115a21fe0341df594ef41071404b2d379e96a22befb76",
+        "metaMorpho": {
+          "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d",
+          "totalShares": "11147158767033518156131",
+          "totalPoints": "84685508194929118375296582864",
+          "lastUpdate": "1713399275",
+          "bluePositions": [
+            {
+              "id": "0x1786d95b47b5a44d56fd83dac52468f7ae6424964c680fbff37907223f8df2be",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0x3c83f77bde9541f8d3d82533b19bbc1f97eb2f1098bb991728acbfbede09cc5d",
+                "totalSupplyShares": "1000000000000000000000",
+                "totalBorrowShares": "50000000000000000000",
+                "totalCollateral": "100000000000000",
+                "totalSupplyPoints": "208669134818796714385766379986388",
+                "totalBorrowPoints": "80598000000000000000000000",
+                "totalCollateralPoints": "161216400000000000000",
+                "lastUpdate": "1709004851"
+              },
+              "supplyShares": "0",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "208667522450796714385766379986388",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1709004851"
+            },
+            {
+              "id": "0x30ff9b4b08620a235515982511f0a39c92e9cb4a409d78010303da7dc8e902c7",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0xd0e50cdac92fe2172043f5e0c36532c6369d24947e40968f34a5e8819ca9ec5d",
+                "totalSupplyShares": "847523997333266240161647613",
+                "totalBorrowShares": "835039442034336468036684461",
+                "totalCollateral": "804918832967901895768",
+                "totalSupplyPoints": "784386767607274814102064651322836",
+                "totalBorrowPoints": "1455577997307805864061602580256",
+                "totalCollateralPoints": "1389283259536479517997952",
+                "lastUpdate": "1713344903"
+              },
+              "supplyShares": "847523497333266240161647613",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "64878581936733953177711171250720",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1712739779"
+            },
+            {
+              "id": "0xccf6f78680b137412bcc3e96243a9fa6a98f403bcc8910ef335ea1613a665fb1",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0x1929f8139224cb7d5db8c270addc9ce366d37ad279e1135f73c0adce74b0f936",
+                "totalSupplyShares": "2593754697550138122213736139",
+                "totalBorrowShares": "2299637439133198656830220817",
+                "totalCollateral": "11771800942235703483264926",
+                "totalSupplyPoints": "4513193384920670812260316224255264",
+                "totalBorrowPoints": "3694703701081911750614436676363884",
+                "totalCollateralPoints": "18114167555451767584260460292244",
+                "lastUpdate": "1713399575"
+              },
+              "supplyShares": "2593754197550138122213736139",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "2801843222849879879776181974687620",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1712739779"
+            },
+            {
+              "id": "0xcff94c56f05c247f32f80f2af18e4e8d848036abc02c7837907da87b88c1280f",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0x58e212060645d18eab6d9b2af3d56fbc906a92ff5667385f616f662c70372284",
+                "totalSupplyShares": "0",
+                "totalBorrowShares": "0",
+                "totalCollateral": "0",
+                "totalSupplyPoints": "2683818412890108243620458044000000",
+                "totalBorrowPoints": "0",
+                "totalCollateralPoints": "0",
+                "lastUpdate": "1713183275"
+              },
+              "supplyShares": "0",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "2583771166054401897928149672000000",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1711392767"
+            },
+            {
+              "id": "0xffb5829ab5979cb442d597bd6e010cb58b22da016f0f4fca476c7043c9220b63",
+              "user": {
+                "id": "0x38989bba00bdf8181f4082995b3deae96163ac5d"
+              },
+              "market": {
+                "id": "0xc54d7acf14de29e0e5527cabd7a576506870346a78a11a6762e2cca66322ec41",
+                "totalSupplyShares": "10486472552235517235248420140",
+                "totalBorrowShares": "8779084735732391698546613870",
+                "totalCollateral": "8547737727057876867399",
+                "totalSupplyPoints": "82242784450094324355060900310397076",
+                "totalBorrowPoints": "70502717555711563719887235084277860",
+                "totalCollateralPoints": "68079757024970665230151357716",
+                "lastUpdate": "1713399275"
+              },
+              "supplyShares": "7711534695401326892396301489",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "76751312936750345684575499513411844",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1713399275"
+            }
+          ]
+        },
+        "user": {
+          "id": "0xf2e018258a20a046df85194e93db566a492db1eb"
+        },
+        "shares": "0",
+        "supplyPoints": "1469444819719737641040",
+        "lastUpdate": "1704892499"
+      },
+      {
+        "id": "0xd3c0baf52e4ab511c935f232c826d4e3d97f342df17aae2a27a77c5a1166f9dd",
+        "metaMorpho": {
+          "id": "0xdd0f28e19c1780eb6396170735d45153d261490d",
+          "totalShares": "7836796779420095518474917",
+          "totalPoints": "14161935483328970960766263400648",
+          "lastUpdate": "1713339491",
+          "bluePositions": [
+            {
+              "id": "0x18623666cacceef77fd72d7834333d3aa674f3f802d961b7f30582bd78915d78",
+              "user": {
+                "id": "0xdd0f28e19c1780eb6396170735d45153d261490d"
+              },
+              "market": {
+                "id": "0x3a85e619751152991742810df6ec69ce473daef99e28a64ab2340d7b7ccfee49",
+                "totalSupplyShares": "12596041264645191436",
+                "totalBorrowShares": "8072644936486901775",
+                "totalCollateral": "21401483310",
+                "totalSupplyPoints": "27824976610018037997029100",
+                "totalBorrowPoints": "21720333513222014396996796",
+                "totalCollateralPoints": "59810957786685312",
+                "lastUpdate": "1713415859"
+              },
+              "supplyShares": "2188276987596899551",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "0",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1712845727"
+            },
+            {
+              "id": "0x1efd54d6c2cd2da734e2ae138ecee4fb64d96f925c72629d56a6fb118d1cf10f",
+              "user": {
+                "id": "0xdd0f28e19c1780eb6396170735d45153d261490d"
+              },
+              "market": {
+                "id": "0xb323495f7e4148be5643a4ea4a8221eef163e4bccfdedc2a6f4696baacbc86cc",
+                "totalSupplyShares": "34853011885835356465",
+                "totalBorrowShares": "27684149743609439377",
+                "totalCollateral": "15473519035626294748792",
+                "totalSupplyPoints": "172430943212628686890777452",
+                "totalBorrowPoints": "140181643532977861469285988",
+                "totalCollateralPoints": "62815212992171027343196955340",
+                "lastUpdate": "1713421823"
+              },
+              "supplyShares": "5563513098660305868",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "12923219246259034769982600",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1713339491"
+            }
+          ]
+        },
+        "user": {
+          "id": "0x6abfd6139c7c3cc270ee2ce132e309f59caaf6a2"
+        },
+        "shares": "385023822484733137169743",
+        "supplyPoints": "0",
+        "lastUpdate": "1710339791"
+      },
+      {
+        "id": "0xd58dd7ddfb0e74ceda438fb9e4734d08ca67331bec658980bcb5bb4f6a499c16",
+        "metaMorpho": {
+          "id": "0x95eef579155cd2c5510f312c8fa39208c3be01a8",
+          "totalShares": "4441256634343308013795146",
+          "totalPoints": "5404233607301144379055499950356",
+          "lastUpdate": "1713414035",
+          "bluePositions": [
+            {
+              "id": "0x444d0d38e94e43fbedc49bedeee17afbf54b20df94253b8ce6a9c8efc5d3461d",
+              "user": {
+                "id": "0x95eef579155cd2c5510f312c8fa39208c3be01a8"
+              },
+              "market": {
+                "id": "0xdc5333039bcf15f1237133f74d5806675d83d9cf19cfd4cfdd9be674842651bf",
+                "totalSupplyShares": "1459837620867617971",
+                "totalBorrowShares": "930510193562840973",
+                "totalCollateral": "4372546164952008704313536",
+                "totalSupplyPoints": "2201327853760277181165504",
+                "totalBorrowPoints": "1765674681433891893224256",
+                "totalCollateralPoints": "23043895556613947191748137494996",
+                "lastUpdate": "1713372491"
+              },
+              "supplyShares": "1459831720867617968",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "2063724589959398476217952",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1713278243"
+            },
+            {
+              "id": "0xa26b70ac635be465fdadd52f69cd7ef8ae895e5faea4af85e51f312ba2ad9d37",
+              "user": {
+                "id": "0x95eef579155cd2c5510f312c8fa39208c3be01a8"
+              },
+              "market": {
+                "id": "0xcec858380cba2d9ca710fce3ce864d74c3f620d53826f69d08508902e09be86f",
+                "totalSupplyShares": "3004956158295950083",
+                "totalBorrowShares": "2426801494147163198",
+                "totalCollateral": "5901996093784139825796901",
+                "totalSupplyPoints": "3168674066176996467473676",
+                "totalBorrowPoints": "2921950205417579356192392",
+                "totalCollateralPoints": "14060222593967245576707744953208",
+                "lastUpdate": "1713414035"
+              },
+              "supplyShares": "3004832683219663001",
+              "borrowShares": "0",
+              "collateral": "0",
+              "supplyPoints": "3168472089500956201449396",
+              "borrowPoints": "0",
+              "collateralPoints": "0",
+              "lastUpdate": "1713414035"
+            }
+          ]
+        },
+        "user": {
+          "id": "0x6abfd6139c7c3cc270ee2ce132e309f59caaf6a2"
+        },
+        "shares": "345359661696544378268773",
+        "supplyPoints": "0",
+        "lastUpdate": "1712058863"
+      }
+    ]
+  }
+}

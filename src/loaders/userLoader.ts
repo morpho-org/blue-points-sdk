@@ -1,7 +1,7 @@
 import { fetchSubgraph } from "../subgraph";
 import { Market, MetaMorpho, MetaMorphoPosition, Position } from "../types";
 
-import { parseSubgraphData } from "./fullLoader";
+import { parseSubgraphData } from "./loader";
 
 const userPositionsQuery = `query UserRewards(
   $block: Int!

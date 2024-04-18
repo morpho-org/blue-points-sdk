@@ -1,3 +1,5 @@
+import { Address } from "viem";
+
 import { State } from "../client";
 import { getConfig } from "../index";
 import { fetchSubgraph } from "../subgraph";
@@ -5,27 +7,26 @@ import { Market, MetaMorpho, MetaMorphoPosition, Position } from "../types";
 
 import { parseSubgraphData, SubgraphConfig } from "./loader";
 
-export const fullLoaderQuery = `query All($block: Int! 
+// TODO: paginate the metaMorpho blue positions (here it loads only the first 1000)
+export const usersLoaderQuery = `query All($block: Int! 
   $first: Int!
-  $lastMarketsId: ID!
   $lastPositionsId: ID!
-  $lastMetaMorphosId: ID! 
   $lastMetaMorphoPositionsId: ID! 
+  $users: [ID!]!
   ) {
-  markets(first: $first block: {number: $block} where: {id_gt: $lastMarketsId} orderBy: id) {
-    id
-    totalSupplyShares
-    totalBorrowShares
-    totalCollateral
-    totalSupplyPoints
-    totalBorrowPoints
-    totalCollateralPoints
-    lastUpdate
-  }
-  positions(first: $first block: {number: $block} where: {id_gt: $lastPositionsId} orderBy: id) {
+  positions(first: $first block: {number: $block} where: {id_gt: $lastPositionsId, user_in: $users} orderBy: id) {
     id
     user {id}
-    market {id}
+    market {
+      id 
+      totalSupplyShares
+      totalBorrowShares
+      totalCollateral
+      totalSupplyPoints
+      totalBorrowPoints
+      totalCollateralPoints
+      lastUpdate
+    }
     supplyShares
     borrowShares
     collateral
@@ -35,16 +36,36 @@ export const fullLoaderQuery = `query All($block: Int!
     lastUpdate
   }
 
-  metaMorphos(first: $first block: {number: $block} where: {id_gt: $lastMetaMorphosId} orderBy: id) {
-    id
-    totalShares
-    totalPoints
-    lastUpdate
-  }
   
-  metaMorphoPositions(first: $first block: {number: $block} where: {id_gt: $lastMetaMorphoPositionsId} orderBy: id) {
+  metaMorphoPositions(first: $first block: {number: $block} where: {id_gt: $lastMetaMorphoPositionsId user_in: $users} orderBy: id) {
     id
-    metaMorpho {id}
+    metaMorpho {
+      id
+      totalShares
+      totalPoints
+      lastUpdate
+      bluePositions(first: 1000) {
+        id
+        user {id}
+        market {
+          id 
+          totalSupplyShares
+          totalBorrowShares
+          totalCollateral
+          totalSupplyPoints
+          totalBorrowPoints
+          totalCollateralPoints
+          lastUpdate
+        }
+        supplyShares
+        borrowShares
+        collateral
+        supplyPoints
+        borrowPoints
+        collateralPoints
+        lastUpdate
+      }
+    }
     user {id}
     shares
     supplyPoints
@@ -56,16 +77,15 @@ const subgraphCache = new Map<string, State>();
 
 export const resetCache = () => void subgraphCache.clear();
 
-export const loadFullFromSubgraph = async (
+export const loadFullForUsers = async (
   subgraph: SubgraphConfig,
-  block: number
+  block: number,
+  users: Address[]
 ): Promise<State> => {
   const cachedFetch = async () => {
     let hasMore = true;
     const lastIds = {
-      lastMarketsId: "",
       lastPositionsId: "",
-      lastMetaMorphosId: "",
       lastMetaMorphoPositionsId: "",
     };
 
@@ -87,10 +107,11 @@ export const loadFullFromSubgraph = async (
       const fetch = () =>
         fetchSubgraph(
           subgraph.url,
-          fullLoaderQuery,
+          usersLoaderQuery,
           {
             block,
             first: querySize,
+            users,
             ...lastIds,
           },
           subgraph.init
@@ -116,11 +137,7 @@ export const loadFullFromSubgraph = async (
             (d: any) => d.length === querySize
           );
 
-          lastIds.lastMarketsId = markets[markets.length - 1]?.id ?? lastIds.lastMarketsId;
-
           lastIds.lastPositionsId = positions[positions.length - 1]?.id ?? lastIds.lastPositionsId;
-          lastIds.lastMetaMorphosId =
-            metaMorphos[metaMorphos.length - 1]?.id ?? lastIds.lastMetaMorphosId;
           lastIds.lastMetaMorphoPositionsId =
             metaMorphoPositions[metaMorphoPositions.length - 1]?.id ??
             lastIds.lastMetaMorphoPositionsId;
@@ -128,14 +145,14 @@ export const loadFullFromSubgraph = async (
       }
     }
 
-    const markets = Object.fromEntries(data.markets.map((m) => [m.id, m]));
+    const markets = Object.fromEntries([...new Set(data.markets)].map((m) => [m.id, m]));
 
-    const positions = Object.fromEntries(data.positions.map((p) => [p.id, p]));
+    const positions = Object.fromEntries([...new Set(data.positions)].map((p) => [p.id, p]));
 
-    const metaMorphos = Object.fromEntries(data.metaMorphos.map((m) => [m.id, m]));
+    const metaMorphos = Object.fromEntries([...new Set(data.metaMorphos)].map((m) => [m.id, m]));
 
     const metaMorphoPositions = Object.fromEntries(
-      data.metaMorphoPositions.map((mp) => [mp.id, mp])
+      [...new Set(data.metaMorphoPositions)].map((mp) => [mp.id, mp])
     );
 
     return {
@@ -146,7 +163,7 @@ export const loadFullFromSubgraph = async (
     };
   };
   const config = getConfig();
-  const cacheKey = `${subgraph.url}-${block}`;
+  const cacheKey = `${subgraph.url}-${block}-${JSON.stringify(users)}`;
   if (config.cacheEnabled && subgraphCache.has(cacheKey)) {
     return subgraphCache.get(cacheKey)!;
   }
