@@ -1,6 +1,7 @@
 import { Address, Hex } from "viem";
 
 import {
+  Filters,
   getTimeframeFromSubgraph,
   loadFullFromSubgraphs,
   SnapshotConfig,
@@ -25,14 +26,16 @@ export default class PointsClient {
     subgraphs,
     from,
     to,
+    filters = {},
     modules = [],
   }: {
     subgraphs: SubgraphConfigs;
     from?: SnapshotConfig;
     to: SnapshotConfig;
+    filters: Filters;
     modules: Module[];
   }): Promise<PointsClient> {
-    const state = await getTimeframeFromSubgraph({ subgraphs, from, to });
+    const state = await getTimeframeFromSubgraph({ subgraphs, from, to, ...filters });
     return new PointsClient(state, modules);
   }
   constructor(

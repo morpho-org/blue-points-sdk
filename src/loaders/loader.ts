@@ -6,7 +6,12 @@ import { areStatesEqual, distributeUpTo, stateDiff } from "../distributors";
 import { Market, MetaMorpho, MetaMorphoPosition, Position } from "../types";
 
 import { loadFullFromSubgraph } from "./fullLoader";
+import { loadFullForMarkets } from "./marketsLoader";
+import { loadFullForMarketsAndMetaMorphos } from "./marketsMetaMorphosLoader";
+import { loadFullForMetaMorphos } from "./metaMorphosLoader";
 import { loadFullForUsers } from "./usersLoader";
+import { loadFullForUsersAndMarkets } from "./usersMarketsLoader";
+import { loadFullForUsersAndMarketsAndMetaMorphos } from "./usersMarketsMetaMorphosLoader";
 
 export interface SubgraphConfig {
   url: string;
@@ -171,25 +176,26 @@ export const loadFromOneSubgraph = async (
     return loadFullForUsers(subgraph, block, filters.users);
   }
   if (filters.users && filters.markets && filters.metaMorphos == undefined) {
-    return loadFullFromSubgraph(subgraph, block);
-    //return loadFullForUsersAndMarkets(subgraph, block, userFilters, marketFilters);
+    return loadFullForUsersAndMarkets(subgraph, block, filters.users, filters.markets);
   }
   if (filters.users && filters.markets && filters.metaMorphos) {
-    return loadFullFromSubgraph(subgraph, block);
-    //return loadFullForUsersMarketsAndMetaMorphos(subgraph, block, userFilters, marketFilters, metaMorphoFilters);
+    return loadFullForUsersAndMarketsAndMetaMorphos(
+      subgraph,
+      block,
+      filters.users,
+      filters.markets,
+      filters.metaMorphos
+    );
   }
   // now userFilters is empty
   if (filters.markets && filters.metaMorphos == undefined) {
-    return loadFullFromSubgraph(subgraph, block);
-    //return loadFullForMarkets(subgraph, block, marketFilters);
+    return loadFullForMarkets(subgraph, block, filters.markets);
   }
   if (filters.markets && filters.metaMorphos) {
-    return loadFullFromSubgraph(subgraph, block);
-    //return loadFullForMarketsAndMetaMorphos(subgraph, block, marketFilters, metaMorphoFilters);
+    return loadFullForMarketsAndMetaMorphos(subgraph, block, filters.markets, filters.metaMorphos);
   }
   if (filters.metaMorphos) {
-    return loadFullFromSubgraph(subgraph, block);
-    //return loadFullForMetaMorphos(subgraph, block, metaMorphoFilters);
+    return loadFullForMetaMorphos(subgraph, block, filters.metaMorphos);
   }
   throw new Error("Invalid filters");
 };

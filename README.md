@@ -323,6 +323,11 @@ const distribute = async (subgraph: string) => {
           lastBlockNumber: 19191167,
           timestamp: 1707488903,
         },
+        filters: {
+          markets: ["0x12345"], // All markets by default
+          metaMorphos: ["0x12345"], // All metamorphos by default
+          users: ["0x12345"], // All users by default
+        },
         modules: [new RedistributorModule()],
       },
   );
