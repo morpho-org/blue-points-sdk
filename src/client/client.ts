@@ -51,6 +51,7 @@ export default class PointsClient {
     if (!market) throw new Error("Market not found");
 
     return {
+      id: hexId,
       totalBorrowPoints: market.totalBorrowPoints,
       totalCollateralPoints: market.totalCollateralPoints,
       totalSupplyPoints: market.totalSupplyPoints,
@@ -73,10 +74,12 @@ export default class PointsClient {
     const market = this.state.markets[position.market]!;
 
     return {
+      user: position.user,
       borrowPoints: position.borrowPoints,
       collateralPoints: position.collateralPoints,
       supplyPoints: position.supplyPoints,
       market: {
+        id: market.id,
         totalBorrowPoints: market.totalBorrowPoints,
         totalCollateralPoints: market.totalCollateralPoints,
         totalSupplyPoints: market.totalSupplyPoints,
@@ -90,6 +93,7 @@ export default class PointsClient {
     if (!morpho) throw new Error("MetaMorpho not found");
 
     return {
+      id: metaMorpho,
       totalPoints: morpho.totalPoints,
     };
   }
